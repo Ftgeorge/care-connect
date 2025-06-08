@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="800" height="600" fill="#F3F4F6"/>
+  
+  <!-- Grid Lines -->
+  <g stroke="#E5E7EB" stroke-width="1">
+    <line x1="0" y1="100" x2="800" y2="100"/>
+    <line x1="0" y1="200" x2="800" y2="200"/>
+    <line x1="0" y1="300" x2="800" y2="300"/>
+    <line x1="0" y1="400" x2="800" y2="400"/>
+    <line x1="0" y1="500" x2="800" y2="500"/>
+    <line x1="100" y1="0" x2="100" y2="600"/>
+    <line x1="200" y1="0" x2="200" y2="600"/>
+    <line x1="300" y1="0" x2="300" y2="600"/>
+    <line x1="400" y1="0" x2="400" y2="600"/>
+    <line x1="500" y1="0" x2="500" y2="600"/>
+    <line x1="600" y1="0" x2="600" y2="600"/>
+    <line x1="700" y1="0" x2="700" y2="600"/>
+  </g>
+  
+  <!-- Roads -->
+  <g stroke="#D1D5DB" stroke-width="8">
+    <path d="M0 300 H800"/>
+    <path d="M400 0 V600"/>
+  </g>
+  
+  <!-- Buildings -->
+  <g fill="#E5E7EB">
+    <rect x="100" y="100" width="80" height="80" rx="4"/>
+    <rect x="300" y="100" width="80" height="80" rx="4"/>
+    <rect x="500" y="100" width="80" height="80" rx="4"/>
+    <rect x="700" y="100" width="80" height="80" rx="4"/>
+    <rect x="100" y="400" width="80" height="80" rx="4"/>
+    <rect x="300" y="400" width="80" height="80" rx="4"/>
+    <rect x="500" y="400" width="80" height="80" rx="4"/>
+    <rect x="700" y="400" width="80" height="80" rx="4"/>
+  </g>
+</svg> 

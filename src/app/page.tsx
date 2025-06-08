@@ -5,11 +5,13 @@ import Benefits from '@/components/landing/Benefits';
 import Testimonials from '@/components/landing/Testimonials';
 import FAQ from '@/components/landing/FAQ';
 import Footer from '@/components/landing/Footer';
+import Navbar from "@/components/landing/Navbar";
 
 export default function Home() {
   return (
     <>
       <main>
+        <Navbar />
         <Hero />
         <Features />
         <HowItWorks />

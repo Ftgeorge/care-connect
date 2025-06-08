@@ -1,8 +1,17 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
-import ProductNavbar from '@/components/product/ProductNavbar';
+import dynamic from 'next/dynamic';
+import { motion } from 'framer-motion';
+
+// Dynamically import the Sidebar with no SSR to improve initial load
+const Sidebar = dynamic(() => import('@/components/product/Sidebar'), {
+  ssr: false,
+  loading: () => (
+    <div className="w-64 h-screen bg-white border-r border-gray-200 fixed left-0 top-0 animate-pulse" />
+  ),
+});
 
 export default function ProductLayout({
   children,
@@ -22,10 +31,21 @@ export default function ProductLayout({
 
   return (
     <div className="min-h-screen bg-[#FAFAFA]">
-      <ProductNavbar />
-      <main className="pt-16">
-        {children}
-      </main>
+      <Sidebar />
+      <motion.main
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.3 }}
+        className="ml-64 p-8"
+      >
+        <Suspense fallback={
+          <div className="flex items-center justify-center h-screen">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#D98586]" />
+          </div>
+        }>
+          {children}
+        </Suspense>
+      </motion.main>
     </div>
   );
 } 

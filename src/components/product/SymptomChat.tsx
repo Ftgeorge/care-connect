@@ -69,7 +69,7 @@ export default function SymptomChat({ messages, onSendMessage }: SymptomChatProp
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Describe your symptoms..."
-            className="flex-1 p-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#D98586] focus:border-transparent"
+            className="flex-1 p-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#D98586] focus:border-transparent text-[#333333]"
           />
           <button
             type="submit"

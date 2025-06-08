@@ -1,21 +1,12 @@
 import type { Metadata } from "next";
-import { Inter, Outfit } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/landing/Navbar";
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-});
-
-const outfit = Outfit({
-  subsets: ["latin"],
-  variable: "--font-outfit",
-});
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "CareConnect - Your AI Health Assistant",
-  description: "Get instant, reliable symptom checks and connect with certified doctors — anytime, anywhere.",
+  title: "CareConnect - Your AI-Powered Health Assistant",
+  description: "Get instant health insights and connect with doctors from the comfort of your home",
 };
 
 export default function RootLayout({
@@ -24,9 +15,9 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${outfit.variable}`}>
-      <body className="font-sans">
-        <Navbar />
+    <html lang="en">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></link>
+      <body className={inter.className}>
         {children}
       </body>
     </html>

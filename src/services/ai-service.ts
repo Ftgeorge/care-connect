@@ -1,9 +1,4 @@
-import { CohereClient } from 'cohere-ai';
-
-// Initialize Cohere
-const cohere = new CohereClient({
-  token: process.env.COHERE_API_KEY || ''
-});
+// Initialize Hugging Face API
 
 // Enhanced medical context for the AI
 const MEDICAL_CONTEXT = `You are a medical AI assistant trained to analyze symptoms and provide preliminary health insights. 
@@ -47,16 +42,58 @@ interface MedicalHistory {
   familyHistory?: string[];
 }
 
+// Dummy data for testing
+const DUMMY_CONDITIONS = [
+  {
+    name: "Common Cold",
+    probability: 75,
+    description: "A viral infection of the upper respiratory tract",
+    recommendations: [
+      "Get plenty of rest",
+      "Stay hydrated",
+      "Use over-the-counter cold medications",
+      "Use a humidifier"
+    ],
+    severity: "low" as const,
+    urgency: "routine" as const
+  },
+  {
+    name: "Seasonal Allergies",
+    probability: 60,
+    description: "Allergic reaction to environmental triggers",
+    recommendations: [
+      "Take antihistamines",
+      "Avoid known allergens",
+      "Use nasal sprays",
+      "Consider air purifiers"
+    ],
+    severity: "low" as const,
+    urgency: "routine" as const
+  }
+];
+
+const DUMMY_PREVENTIVE_RECOMMENDATIONS = [
+  "Get annual flu shot",
+  "Maintain regular exercise routine",
+  "Eat a balanced diet rich in fruits and vegetables",
+  "Stay hydrated throughout the day",
+  "Get adequate sleep (7-9 hours per night)",
+  "Practice stress management techniques",
+  "Schedule regular check-ups with your doctor"
+];
+
+// Mock function to simulate API delay
+const simulateDelay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 export async function analyzeSymptoms(
   symptoms: string[],
   medicalHistory?: MedicalHistory
 ): Promise<SymptomAnalysis> {
   try {
-    if (!validateSymptoms(symptoms)) {
-      throw new Error('Invalid symptoms provided');
-    }
+    // Simulate API delay
+    await simulateDelay(1500);
 
-    // Check for emergency symptoms first
+    // Check for emergency symptoms
     const emergencyRecommendations = getEmergencyRecommendations(symptoms);
     if (emergencyRecommendations.length > 0) {
       return {
@@ -68,73 +105,46 @@ export async function analyzeSymptoms(
       };
     }
 
-    const prompt = `${MEDICAL_CONTEXT}
-
-Patient Information:
-${medicalHistory ? `
-Age: ${medicalHistory.age}
-Gender: ${medicalHistory.gender}
-Existing Conditions: ${medicalHistory.existingConditions?.join(', ') || 'None'}
-Medications: ${medicalHistory.medications?.join(', ') || 'None'}
-Allergies: ${medicalHistory.allergies?.join(', ') || 'None'}
-Family History: ${medicalHistory.familyHistory?.join(', ') || 'None'}
-` : 'No medical history provided'}
-
-Reported Symptoms: ${symptoms.join(', ')}
-
-Please analyze these symptoms and provide:
-1. Possible conditions with probabilities and severity levels
-2. Overall severity assessment
-3. Specific recommendations
-4. Preventive measures
-5. Follow-up actions
-
-Format the response as a JSON object with the following structure:
-{
-  "conditions": [
-    {
-      "name": "condition name",
-      "probability": number between 0-100,
-      "description": "brief description",
-      "recommendations": ["recommendation 1", "recommendation 2"],
-      "severity": "low|medium|high",
-      "urgency": "routine|urgent|emergency"
-    }
-  ],
-  "overallSeverity": "low|medium|high",
-  "recommendations": ["general recommendation 1", "general recommendation 2"],
-  "preventiveMeasures": ["preventive measure 1", "preventive measure 2"],
-  "followUpActions": ["follow-up action 1", "follow-up action 2"]
-}`;
-
-    const response = await cohere.generate({
-      prompt: prompt,
-      max_tokens: 1000,
-      temperature: 0.3,
-      k: 0,
-      p: 0.9,
-      frequency_penalty: 0.1,
-      presence_penalty: 0.1,
-      stop_sequences: [],
-      return_likelihoods: 'NONE'
-    });
-
-    const generatedText = response.generations[0].text;
-    if (!generatedText) {
-      throw new Error('No response from AI');
-    }
-
-    // Extract JSON from the response
-    const jsonMatch = generatedText.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) {
-      throw new Error('Invalid response format');
-    }
-
-    // Parse the JSON response
-    const analysis = JSON.parse(jsonMatch[0]) as SymptomAnalysis;
-    return analysis;
+    // Return dummy analysis
+    return {
+      conditions: DUMMY_CONDITIONS,
+      overallSeverity: 'low',
+      recommendations: [
+        "Monitor your symptoms",
+        "Get plenty of rest",
+        "Stay hydrated",
+        "Consider over-the-counter medications if needed"
+      ],
+      preventiveMeasures: [
+        "Wash hands frequently",
+        "Avoid close contact with sick individuals",
+        "Maintain a healthy lifestyle"
+      ],
+      followUpActions: [
+        "Schedule a follow-up if symptoms worsen",
+        "Keep track of symptom progression",
+        "Contact healthcare provider if no improvement in 7 days"
+      ]
+    };
   } catch (error) {
     console.error('Error analyzing symptoms:', error);
+    throw error;
+  }
+}
+
+export async function getPreventiveRecommendations(
+  age: number,
+  gender: string,
+  existingConditions: string[] = []
+): Promise<string[]> {
+  try {
+    // Simulate API delay
+    await simulateDelay(1000);
+
+    // Return dummy recommendations
+    return DUMMY_PREVENTIVE_RECOMMENDATIONS;
+  } catch (error) {
+    console.error('Error getting preventive recommendations:', error);
     throw error;
   }
 }
@@ -201,42 +211,4 @@ export function getEmergencyRecommendations(symptoms: string[]): string[] {
   }
 
   return [];
-}
-
-// New function to get preventive health recommendations
-export async function getPreventiveRecommendations(
-  age: number,
-  gender: string,
-  existingConditions: string[] = []
-): Promise<string[]> {
-  try {
-    const prompt = `Based on the following patient information, provide preventive health recommendations:
-Age: ${age}
-Gender: ${gender}
-Existing Conditions: ${existingConditions.join(', ') || 'None'}
-
-Please provide specific preventive measures and screenings recommended for this demographic.`;
-
-    const response = await cohere.generate({
-      prompt: prompt,
-      max_tokens: 500,
-      temperature: 0.3,
-      k: 0,
-      p: 0.9,
-      frequency_penalty: 0.1,
-      presence_penalty: 0.1,
-      stop_sequences: [],
-      return_likelihoods: 'NONE'
-    });
-
-    const generatedText = response.generations[0].text;
-    if (!generatedText) {
-      throw new Error('No response from AI');
-    }
-
-    return generatedText.split('\n').filter(rec => rec.trim().length > 0);
-  } catch (error) {
-    console.error('Error getting preventive recommendations:', error);
-    throw error;
-  }
 } 

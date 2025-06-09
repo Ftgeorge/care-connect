@@ -37,7 +37,7 @@ export default function ResultsPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const storedAnalysis = localStorage.getItem('lastAnalysis');
+    const storedAnalysis = localStorage.getItem('symptomAnalysis');
     if (storedAnalysis) {
       try {
         setAnalysis(JSON.parse(storedAnalysis));
@@ -324,6 +324,23 @@ export default function ResultsPage() {
                 </div>
               ))}
             </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="mb-8 flex flex-col sm:flex-row gap-4">
+            <Link
+              href="/product/booking"
+              className="flex-1 inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-[#D98586] hover:bg-[#D98586]/90 transition-colors"
+            >
+              <FaUserMd className="mr-2" />
+              Book Appointment with Doctor
+            </Link>
+            <Link
+              href="/product"
+              className="flex-1 inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors"
+            >
+              Start New Check
+            </Link>
           </div>
 
           {/* Disclaimer */}

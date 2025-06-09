@@ -11,9 +11,10 @@ interface Message {
 interface SymptomChatProps {
   messages: Message[];
   onSendMessage: (message: string) => void;
+  isLoading: boolean;
 }
 
-export default function SymptomChat({ messages, onSendMessage }: SymptomChatProps) {
+export default function SymptomChat({ messages, onSendMessage, isLoading }: SymptomChatProps) {
   const [input, setInput] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -47,17 +48,30 @@ export default function SymptomChat({ messages, onSendMessage }: SymptomChatProp
               className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               <div
-                className={`max-w-[80%] rounded-2xl px-4 py-2 ${
-                  message.type === 'user'
+                className={`max-w-[80%] rounded-2xl px-4 py-2 ${message.type === 'user'
                     ? 'bg-[#D98586] text-white'
                     : 'bg-gray-100 text-[#2D3436]'
-                }`}
+                  }`}
               >
                 {message.content}
               </div>
             </motion.div>
           ))}
+
+          {isLoading && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="flex justify-start"
+            >
+              <div className="text-sm text-gray-400 bg-gray-100 px-4 py-2 rounded-2xl max-w-[80%]">
+                Thinking...
+              </div>
+            </motion.div>
+          )}
         </AnimatePresence>
+        <div ref={messagesEndRef} />
+
         <div ref={messagesEndRef} />
       </div>
 

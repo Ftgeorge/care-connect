@@ -138,10 +138,31 @@ export default function SymptomChecker() {
           }]);
 
           try {
+            // Get symptom analysis
             const analysis = await analyzeSymptoms(collectedSymptoms, medicalHistory);
             
-            // Store analysis in localStorage for results page
-            localStorage.setItem('symptomAnalysis', JSON.stringify(analysis));
+            // Get preventive recommendations if age and gender are provided
+            let preventiveRecommendations: string[] = [];
+            if (medicalHistory.age && medicalHistory.gender) {
+              try {
+                preventiveRecommendations = await getPreventiveRecommendations(
+                  medicalHistory.age,
+                  medicalHistory.gender,
+                  medicalHistory.existingConditions
+                );
+              } catch (err) {
+                console.error('Error getting preventive recommendations:', err);
+              }
+            }
+            
+            // Store analysis and recommendations in localStorage for results page
+            localStorage.setItem('symptomAnalysis', JSON.stringify({
+              ...analysis,
+              preventiveRecommendations,
+              date: new Date().toISOString(),
+              symptoms: collectedSymptoms,
+              medicalHistory
+            }));
             
             setMessages(prev => [...prev, { 
               type: 'ai', 
@@ -168,8 +189,8 @@ export default function SymptomChecker() {
   };
 
   const handleStartNewCheck = () => {
-    setMessages([{ 
-      type: 'ai', 
+    setMessages([{
+      type: 'ai',
       content: "Hello! I'm your AI health assistant. What's bothering you today?",
       timestamp: new Date()
     }]);
@@ -222,9 +243,9 @@ export default function SymptomChecker() {
         )}
 
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-          <SymptomChat 
-            messages={messages} 
-            onSendMessage={handleSendMessage} 
+          <SymptomChat
+            messages={messages}
+            onSendMessage={handleSendMessage}
             isLoading={isLoading}
           />
         </div>
@@ -238,9 +259,9 @@ export default function SymptomChecker() {
           <h2 className="text-lg font-semibold text-[#2D3436] mb-4">
             Quick Suggestions
           </h2>
-          <QuickSuggestions 
-            suggestions={quickSuggestions} 
-            onSelect={handleSendMessage} 
+          <QuickSuggestions
+            suggestions={quickSuggestions}
+            onSelect={handleSendMessage}
           />
         </motion.div>
       </div>

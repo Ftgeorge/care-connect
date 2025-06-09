@@ -134,22 +134,21 @@ function DoctorMap({ userLocation, doctors, onDoctorSelect, onDoctorHover, isBac
               transition: transform 0.2s ease;
             ">
               <div class="doctor-marker" style="
-                width: 50px;
-                height: 50px;
+                width: 30px;
+                height: 30px;
                 background: white;
                 border: 4px solid white;
                 border-radius: 50%;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                box-shadow: 
+    0 2px 10px rgba(0, 0, 0, 0.1), 
+    0 4px 15px rgba(0, 0, 0, 0.05),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.05);
                 position: relative;
               ">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
-                  <path d="M19 14C19 16.2091 17.2091 18 15 18C12.7909 18 11 16.2091 11 14C11 11.7909 12.7909 10 15 10C17.2091 10 19 11.7909 19 14Z"/>
-                  <path d="M15 16C16.1046 16 17 15.1046 17 14C17 12.8954 16.1046 12 15 12C13.8954 12 13 12.8954 13 14C13 15.1046 13.8954 16 15 16Z" fill="#D98586"/>
-                  <path d="M9 2C9 1.44772 8.55228 1 8 1C7.44772 1 7 1.44772 7 2V9C7 10.6569 5.65685 12 4 12C2.34315 12 1 10.6569 1 9V8C1 7.44772 1.44772 7 2 7C2.55228 7 3 7.44772 3 8V9C3 9.55228 3.44772 10 4 10C4.55228 10 5 9.55228 5 9V2C5 1.44772 5.44772 1 6 1C6.55228 1 7 1.44772 7 2V9C7 11.7614 9.23858 14 12 14H13" stroke="white" stroke-width="2" stroke-linecap="round"/>
-                </svg>
+                <i class="fa fa-stethoscope" aria-hidden="true"></i>
               </div>
               <div class="doctor-label" style="
                 position: absolute;
@@ -237,7 +236,7 @@ function DoctorMap({ userLocation, doctors, onDoctorSelect, onDoctorHover, isBac
   return (
     <div
       ref={mapRef}
-      className={`w-full ${isBackground ? 'h-full absolute inset-0' : 'h-[600px]'} ${isBackground ? '' : 'rounded-2xl overflow-hidden'}`}
+      className={`w-full ${isBackground ? 'h-full absolute inset-0' : 'h-full'} ${isBackground ? '' : 'rounded-2xl overflow-hidden'}`}
       style={{ zIndex: isBackground ? 0 : 1 }}
     />
   );
@@ -441,36 +440,81 @@ export default function DoctorBooking() {
           </div>
         </div>
 
-        {/* Map Container */}
-        <div className="relative h-screen">
-          <DoctorMap
-            userLocation={userLocation}
-            doctors={doctors}
-            onDoctorSelect={handleDoctorSelect}
-            onDoctorHover={setHoveredDoctor}
-            isBackground={false}
-          />
+        {/* Main Content */}
+        <div className="flex h-[calc(100vh-88px)]">
+          {/* Map Container */}
+          <div className="flex-1 relative">
+            <DoctorMap
+              userLocation={userLocation}
+              doctors={doctors}
+              onDoctorSelect={handleDoctorSelect}
+              onDoctorHover={setHoveredDoctor}
+              isBackground={false}
+            />
 
-          {/* Hover Tooltip */}
-          {hoveredDoctor && (
-            <div className="absolute top-4 left-4 z-30 bg-white/95 backdrop-blur-sm rounded-xl shadow-xl border border-white/20 p-4 max-w-xs transform transition-all duration-200">
-              <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold">
-                  {hoveredDoctor.name.split(' ').map(n => n[0]).join('')}
-                </div>
-                <div>
-                  <h3 className="font-semibold text-gray-800">{hoveredDoctor.name}</h3>
-                  <p className="text-sm text-gray-600">{hoveredDoctor.specialization}</p>
-                  <div className="flex items-center mt-1">
-                    <FaStar className="text-yellow-400 text-sm" />
-                    <span className="text-sm text-gray-600 ml-1">
-                      {hoveredDoctor.rating} • {hoveredDoctor.distance} km
-                    </span>
+            {/* Hover Tooltip */}
+            {hoveredDoctor && (
+              <div className="absolute top-4 left-4 z-30 bg-white/95 backdrop-blur-sm rounded-xl shadow-xl border border-white/20 p-4 max-w-xs transform transition-all duration-200">
+                <div className="flex items-center space-x-3">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold">
+                    {hoveredDoctor.name.split(' ').map(n => n[0]).join('')}
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-800">{hoveredDoctor.name}</h3>
+                    <p className="text-sm text-gray-600">{hoveredDoctor.specialization}</p>
+                    <div className="flex items-center mt-1">
+                      <FaStar className="text-yellow-400 text-sm" />
+                      <span className="text-sm text-gray-600 ml-1">
+                        {hoveredDoctor.rating} • {hoveredDoctor.distance} km
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
+            )}
+          </div>
+
+          {/* Doctor List Sidebar */}
+          <div className="w-96 bg-white border-l border-gray-200 overflow-y-auto">
+            <div className="p-4">
+              <h2 className="text-lg font-semibold text-gray-800 mb-4">Available Doctors</h2>
+              <div className="space-y-4">
+                {doctors.map((doctor) => (
+                  <div
+                    key={doctor.id}
+                    className={`bg-white rounded-xl shadow-sm border border-gray-200 p-4 cursor-pointer transition-all duration-200 hover:shadow-md ${
+                      selectedDoctor?.id === doctor.id ? 'ring-2 ring-[#D98586]' : ''
+                    }`}
+                    onClick={() => handleDoctorSelect(doctor)}
+                  >
+                    <div className="flex items-start space-x-3">
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold">
+                        {doctor.name.split(' ').map(n => n[0]).join('')}
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-gray-800">{doctor.name}</h3>
+                        <p className="text-sm text-gray-600">{doctor.specialization}</p>
+                        <div className="flex items-center mt-1 space-x-2">
+                          <div className="flex items-center">
+                            <FaStar className="text-yellow-400 text-sm" />
+                            <span className="text-sm text-gray-600 ml-1">{doctor.rating}</span>
+                          </div>
+                          <div className="flex items-center text-sm text-gray-600">
+                            <FaMapMarkerAlt className="text-gray-400" />
+                            <span className="ml-1">{doctor.distance} km</span>
+                          </div>
+                        </div>
+                        <div className="mt-2 flex items-center text-sm text-gray-600">
+                          <FaClock className="text-gray-400 mr-1" />
+                          <span>Available Today</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-          )}
+          </div>
         </div>
 
         {/* Bottom Drawer */}
@@ -516,7 +560,18 @@ export default function DoctorBooking() {
                 <div className="flex-1 overflow-y-auto p-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Book Appointment */}
-                    <BookAppointmentSection/>
+                    <BookAppointmentSection
+                      selectedDate={selectedDate}
+                      selectedSlot={selectedSlot}
+                      onDateSelect={setSelectedDate}
+                      onSlotSelect={setSelectedSlot}
+                      availability={selectedDoctor.availability}
+                      doctor={{
+                        id: selectedDoctor.id,
+                        name: selectedDoctor.name,
+                        specialization: selectedDoctor.specialization
+                      }}
+                    />
 
                     {/* Video Consultation */}
                     <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6">

@@ -1,125 +1,208 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { Player } from '@lottiefiles/react-lottie-player';
+import { useState, useEffect } from 'react';
+import { Heart, Shield, Clock, Users, Lock, TrendingUp, Sparkles, Brain, Zap } from 'lucide-react';
+import Link from 'next/link';
+import { FaArrowRight } from 'react-icons/fa';
 
 const benefits = [
   {
     number: '01',
-    title: 'Comprehensive Symptom Analysis',
-    description: 'Our AI provides a detailed analysis of your symptoms, offering insights into potential conditions and helping you understand your health better.',
+    title: 'AI-Powered Symptom Analysis',
+    description: 'Advanced machine learning algorithms analyze your symptoms with medical-grade precision, providing comprehensive insights into potential conditions.',
+    icon: Brain,
+    color: 'from-purple-500 to-pink-500',
+    delay: 0.1
   },
   {
     number: '02',
-    title: '24/7 Accessibility',
-    description: 'Access medical information and preliminary guidance whenever you need it, day or night, from the comfort of your home.',
+    title: '24/7 Instant Access',
+    description: 'Round-the-clock availability ensures immediate health guidance whenever you need it, breaking traditional healthcare barriers.',
+    icon: Clock,
+    color: 'from-blue-500 to-cyan-500',
+    delay: 0.2
   },
   {
     number: '03',
-    title: 'Personalized Guidance',
-    description: 'Receive recommendations and insights tailored to your specific health profile and symptoms.',
+    title: 'Personalized Health Intelligence',
+    description: 'Tailored recommendations powered by your unique health profile, lifestyle, and medical history for truly personalized care.',
+    icon: Sparkles,
+    color: 'from-green-500 to-emerald-500',
+    delay: 0.3
   },
   {
     number: '04',
-    title: 'Connect with Experts',
-    description: 'Easily connect with certified healthcare professionals for in-depth consultations and treatment plans.',
+    title: 'Expert Network Integration',
+    description: 'Seamlessly connect with certified healthcare professionals through our intelligent matching system for specialized care.',
+    icon: Users,
+    color: 'from-orange-500 to-red-500',
+    delay: 0.4
   },
   {
     number: '05',
-    title: 'Secure and Private',
-    description: 'Your health information is handled with the utmost care, ensuring complete privacy and security.',
+    title: 'Enterprise-Grade Security',
+    description: 'Military-level encryption and HIPAA-compliant infrastructure ensure your health data remains completely private and secure.',
+    icon: Shield,
+    color: 'from-indigo-500 to-purple-500',
+    delay: 0.5
   },
   {
     number: '06',
-    title: 'Time and Cost Efficient',
-    description: 'Save time and reduce unnecessary healthcare costs with quick access to information and preliminary assessments.',
+    title: 'Smart Cost Optimization',
+    description: 'Intelligent healthcare routing reduces unnecessary visits and costs while maintaining optimal care quality through predictive analytics.',
+    icon: TrendingUp,
+    color: 'from-teal-500 to-green-500',
+    delay: 0.6
   },
 ];
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      type: 'spring',
-      stiffness: 100,
-      damping: 15,
-    },
-  },
-};
+const floatingElements = Array.from({ length: 20 }, (_, i) => ({
+  id: i,
+  size: Math.random() * 40 + 20,
+  x: Math.random() * 100,
+  y: Math.random() * 100,
+  duration: Math.random() * 20 + 20,
+  delay: Math.random() * 10
+}));
 
 export default function Benefits() {
-  return (
-    <section id="benefits" className="py-24 bg-white text-[#2D3436] overflow-hidden">
-      <div className="container mx-auto px-4">
-        <div className="grid md:grid-cols-2 gap-16 items-center">
-          {/* Left Column - Text Content */}
-          <div className="flex flex-col gap-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-            >
-              <span className="inline-block px-4 py-2 rounded-full bg-[#D98586]/10 text-[#D98586] text-sm font-medium mb-4">
-                Unlock Health Benefits
-              </span>
-              <h2 className="text-4xl md:text-5xl font-display font-bold text-[#2D3436] mb-8">
-                Why Use CareConnect?
-              </h2>
-            </motion.div>
+  const [isHovered, setIsHovered] = useState<number | null>(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="space-y-16"
-            >
-              {benefits.map((benefit) => (
-                <motion.div key={benefit.number} variants={itemVariants} className="flex items-start gap-4">
-                  <div className='rounded-xl bg-[#D98586]/10'>
-                    <div className="text-[#2D3436] font-bold text-xl p-4">{benefit.number}</div>
-                  </div>
-                  <div>
-                    <h3 className="text-4xl font-semibold text-[#D98586] mb-2">{benefit.title}</h3>
-                    <p className="text-xl text-[#636e72] leading-relaxed">{benefit.description}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
+  useEffect(() => {
+    const handleMouseMove = (e: any) => {
+      setMousePosition({
+        x: (e.clientX / window.innerWidth) * 100,
+        y: (e.clientY / window.innerHeight) * 100
+      });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  return (
+    <section id="benefits" className="relative min-h-screen bg-white overflow-hidden">
+      {/* Animated Background */}
+      <div className="absolute inset-0">
+        <div
+          className="absolute inset-0 opacity-30"
+          style={{
+            background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(188, 77, 43, 0.3) 0%, transparent 50%)`
+          }}
+        />
+
+        {/* Floating Elements */}
+        {floatingElements.map((element) => (
+          <div
+            key={element.id}
+            className="absolute rounded-full bg-gradient-to-r from-[#D98586]/20 to-rose-100 blur-sm animate-pulse"
+            style={{
+              left: `${element.x}%`,
+              top: `${element.y}%`,
+              width: `${element.size}px`,
+              height: `${element.size}px`,
+              animationDuration: `${element.duration}s`,
+              animationDelay: `${element.delay}s`
+            }}
+          />
+        ))}
+
+        {/* Grid Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="h-full w-full" style={{
+            backgroundImage: `
+              linear-gradient(rgba(181, 74, 36, 0.1) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(202, 90, 25, 0.1) 1px, transparent 1px)
+            `,
+            backgroundSize: '60px 60px'
+          }} />
+        </div>
+      </div>
+
+      <div className="relative z-10 container mx-auto px-6 py-24">
+        {/* Header */}
+        <div className="text-center mb-20">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-rose-500/10 text-rose-300 backdrop-blur-sm mb-6">
+            <span className="text-sm font-medium">Revolutionary Healthcare Technology</span>
           </div>
 
-          {/* Right Column - Visual Placeholder */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, amount: 0.5 }}
-            transition={{ duration: 1.2, type: 'spring', damping: 20, stiffness: 100 }}
-            className="relative h-full flex justify-center items-center"
+          <h2 className="text-6xl md:text-7xl font-bold bg-gradient-to-r from-rose-100 via-rose-300 to-rose-500 bg-clip-text text-transparent mb-6">
+            Why Choose
+            <br />
+            <span className="bg-gradient-to-r from-[#D98586] to-rose-400 bg-clip-text text-transparent">
+              CareConnect?
+            </span>
+          </h2>
+
+          <p className="text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed">
+            Experience the future of healthcare with our cutting-edge AI technology that transforms how you access and receive medical care.
+          </p>
+        </div>
+
+        {/* Benefits Grid */}
+        <div className="grid lg:grid-cols-2 gap-8 max-w-7xl mx-auto">
+          {benefits.map((benefit, index) => {
+            const Icon = benefit.icon;
+            return (
+              <div
+                key={benefit.number}
+                className="group relative"
+                style={{
+                  animationDelay: `${benefit.delay}s`
+                }}
+                onMouseEnter={() => setIsHovered(index)}
+                onMouseLeave={() => setIsHovered(null)}
+              >
+                {/* Card */}
+                <div className="relative p-8 rounded-3xl bg-white/5 backdrop-blur-xl border border-[#D98586]/10 hover:border-[#D98586] transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-rose-500/20">
+
+                  {/* Number Badge */}
+                  <div className="absolute -top-4 -left-4 w-12 h-12 rounded-2xl bg-gradient-to-br from-[#D98586] to-rose-300 flex items-center justify-center text-white font-bold text-lg shadow-lg">
+                    {benefit.number}
+                  </div>
+
+                  {/* Icon */}
+                  <div className={`inline-flex p-4 rounded-2xl bg-gradient-to-br ${benefit.color} mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                    <Icon className="w-8 h-8 text-white" />
+                  </div>
+
+                  {/* Content */}
+                  <h3 className="text-2xl font-bold text-black mb-4 transition-all duration-300">
+                    {benefit.title}
+                  </h3>
+
+                  <p className="text-gray-600 leading-relaxed text-lg group-hover:text-gray-800 transition-colors duration-300">
+                    {benefit.description}
+                  </p>
+
+                  {/* Hover Effect */}
+                  <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+
+                  {/* Sparkle Effect */}
+                  {isHovered === index && (
+                    <div className="absolute top-4 right-4">
+                      <Zap className="w-6 h-6 text-yellow-400 animate-pulse" />
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Call to Action */}
+        <div className="text-center mt-20">
+          <Link
+            href="/product"
+            className="inline-flex items-center justify-center px-8 py-3 bg-[#D98586] text-white rounded-full hover:bg-[#D98586]/90 transition-colors group"
           >
-            <div className="sticky top-1/2 -translate-y-1/2 w-full max-w-2xl aspect-square rounded-3xl overflow-hidden">
-              <Player
-                autoplay
-                loop
-                src="/anim.json"
-                style={{ width: '100%', height: '100%' }}
-              />
-            </div>
-          </motion.div>
+            <span>Experience CareConnect Today</span>
+            <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+          </Link>
+
         </div>
       </div>
     </section>
   );
-} 
+}

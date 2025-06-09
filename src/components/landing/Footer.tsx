@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const footerLinks = {
   company: [
@@ -119,47 +120,32 @@ export default function Footer() {
           {/* Brand Section */}
           <motion.div variants={itemVariants} className="lg:col-span-2">
             <div className="mb-6">
-              <div className='flex gap-5'>
-                <div className="w-20 h-12 relative">
-                  <Image
-                    src="/logo.png"
-                    alt="CareConnect Logo"
-                    fill
-                    className="object-contain"
-                    priority
-                  />
-                </div>
-                <h1 className='text-3xl font-bold'>Care Connect</h1>
+              <div className="mb-6">
+                <Link href="/" className="flex items-center space-x-3 group">
+                  <div className="relative w-10 h-10 flex-shrink-0">
+                    <Image
+                      src="/logo.png"
+                      alt="CareConnect Logo"
+                      fill
+                      className="object-contain transition-transform duration-200 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="min-w-0">
+                    <h1 className="text-xl font-semibold text-gray-900 truncate">
+                      CareConnect
+                    </h1>
+                    <p className="text-xs text-gray-500 font-medium">Your Health, Our Priority</p>
+                  </div>
+                </Link>
               </div>
 
-              <p className="text-gray-300 text-lg leading-relaxed mb-6">
+              <p className="text-gray-600 text-lg leading-relaxed mb-6">
                 Revolutionizing healthcare with AI-powered assistance. Your trusted partner for health insights and medical guidance, available whenever you need it.
               </p>
 
-              {/* Newsletter Signup */}
-              <div className="mb-6">
-                <h4 className="font-semibold mb-3 text-white">Stay Updated</h4>
-                <div className="flex flex-col sm:flex-row gap-3">
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter your email"
-                    className="flex-1 px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                  />
-                  <button
-                    onClick={handleSubscribe}
-                    disabled={isSubscribed}
-                    className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-lg hover:from-blue-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-all duration-200 disabled:opacity-50"
-                  >
-                    {isSubscribed ? '✓ Subscribed!' : 'Subscribe'}
-                  </button>
-                </div>
-              </div>
-
               {/* Social Links */}
               <div>
-                <h4 className="font-semibold mb-3 text-white">Follow Us</h4>
+                {/* <h4 className="font-semibold mb-3 text-gray-700">Follow Us</h4> */}
                 <div className="flex space-x-4">
                   {socialLinks.map((social) => (
                     <motion.a
@@ -167,7 +153,7 @@ export default function Footer() {
                       href={social.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-all duration-200"
+                      className="w-10 h-10 border border-[#D98586] rounded-lg flex items-center justify-center text-[#D98586] hover:text-white hover:bg-[#D98586] transition-all duration-200"
                       whileHover={{ scale: 1.1, y: -2 }}
                       whileTap={{ scale: 0.95 }}
                     >
@@ -187,7 +173,7 @@ export default function Footer() {
                 <li key={link.name}>
                   <a
                     href={link.href}
-                    className="text-gray-300 hover:text-blue-400 transition-colors duration-200 hover:translate-x-1 inline-block"
+                    className="text-gray-400 hover:text-[#D98586] transition-colors duration-200 hover:translate-x-1 inline-block"
                   >
                     {link.name}
                   </a>
@@ -204,7 +190,7 @@ export default function Footer() {
                 <li key={link.name}>
                   <a
                     href={link.href}
-                    className="text-gray-300 hover:text-blue-400 transition-colors duration-200 hover:translate-x-1 inline-block"
+                    className="text-gray-400 hover:text-[#D98586] transition-colors duration-200 hover:translate-x-1 inline-block"
                   >
                     {link.name}
                   </a>
@@ -221,7 +207,7 @@ export default function Footer() {
                 <li key={link.name}>
                   <a
                     href={link.href}
-                    className="text-gray-300 hover:text-blue-400 transition-colors duration-200 hover:translate-x-1 inline-block"
+                    className="text-gray-400 hover:text-[#D98586] transition-colors duration-200 hover:translate-x-1 inline-block"
                   >
                     {link.name}
                   </a>
@@ -238,7 +224,7 @@ export default function Footer() {
                 <li key={link.name}>
                   <a
                     href={link.href}
-                    className="text-gray-300 hover:text-blue-400 transition-colors duration-200 hover:translate-x-1 inline-block"
+                    className="text-gray-400 hover:text-[#D98586] transition-colors duration-200 hover:translate-x-1 inline-block"
                   >
                     {link.name}
                   </a>
@@ -254,7 +240,7 @@ export default function Footer() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="mt-16 pt-12 border-t border-gray-700"
+          className="mt-16 pt-12 border-t border-gray-300"
         >
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
             {[
@@ -268,7 +254,7 @@ export default function Footer() {
                 variants={itemVariants}
                 className="text-center"
               >
-                <div className="text-3xl font-bold text-blue-400 mb-2">
+                <div className="text-3xl font-bold text-[#D98586] mb-2">
                   {stat.number}
                 </div>
                 <div className="text-gray-400 text-sm">
@@ -285,7 +271,7 @@ export default function Footer() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="pt-8 border-t border-gray-700"
+          className="pt-8 border-t border-gray-300"
         >
           <div className="bg-gradient-to-r from-red-500/10 to-orange-500/10 border border-red-500/20 rounded-xl p-6 mb-8">
             <div className="flex items-start space-x-3">
@@ -307,7 +293,7 @@ export default function Footer() {
 
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-gray-400 text-sm">
-              © {new Date().getFullYear()} CareConnect. All rights reserved. Made with ❤️ for better healthcare.
+              © {new Date().getFullYear()} CareConnect. All rights reserved. Made for better healthcare.
             </p>
             <div className="flex items-center space-x-6 text-sm text-gray-400">
               <span className="flex items-center space-x-2">

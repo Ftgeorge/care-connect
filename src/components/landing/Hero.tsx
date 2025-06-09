@@ -1,24 +1,38 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import Link from 'next/link';
+import { useRef } from 'react';
 import { FaArrowRight, FaStethoscope } from 'react-icons/fa';
+import Image from 'next/image';
 
 export default function Hero() {
+  const sectionRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"]
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image with Parallax */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: 'url(/hero-bg.jpg)',
-          transform: 'translateZ(-1px) scale(2)',
-          zIndex: -1
-        }}
+      <motion.div
+        style={{ y: y }}
+        className="absolute inset-0 w-full h-full"
       >
-        {/* Dark Overlay */}
-        <div className="absolute inset-0 bg-black/60" />
-      </div>
+        <div className="relative w-full h-screen">
+          <Image
+            src="/hero.avif"
+            alt="Hero Background"
+            fill
+            className="object-cover"
+            priority
+            quality={100}
+          />
+          <div className="absolute inset-0 bg-black/50" />
+        </div>
+      </motion.div>
 
       {/* Content */}
       <div className="container mx-auto px-4 relative z-10">

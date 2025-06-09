@@ -3,13 +3,14 @@
 import React, { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { 
-  FaUserMd, 
-  FaCalendarAlt, 
-  FaVideo, 
-  FaChartLine, 
-  FaNotesMedical, 
-  FaBell, 
+import Image from 'next/image'
+import {
+  FaUserMd,
+  FaCalendarAlt,
+  FaVideo,
+  FaChartLine,
+  FaNotesMedical,
+  FaBell,
   FaSignOutAlt,
   FaUserFriends,
   FaFileMedical,
@@ -51,16 +52,29 @@ export default function DoctorLayout({
 
       {/* Sidebar */}
       <div
-        className={`fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 ${
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
+        className={`fixed inset-y-0 left-0 z-50 w-6=72 bg-white shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
       >
         <div className="flex flex-col h-full">
           {/* Sidebar header */}
           <div className="flex items-center justify-between h-16 px-4 border-b border-gray-200">
-            <div className="flex items-center space-x-3">
-              <FaUserMd className="text-[#D98586] text-2xl" />
-              <span className="text-xl font-semibold text-gray-900">CareConnect</span>
+            <div className="px-6 py-8 border-b border-gray-100/80">
+              <Link href="/" className="flex items-center space-x-3 group">
+                <div className="relative w-10 h-10 flex-shrink-0">
+                  <Image
+                    src="/logo.png"
+                    alt="CareConnect Logo"
+                    fill
+                    className="object-contain transition-transform duration-200 group-hover:scale-105"
+                  />
+                </div>
+                <div className="min-w-0">
+                  <h1 className="text-xl font-semibold text-gray-900 truncate">
+                    CareConnect
+                  </h1>
+                  <p className="text-xs text-gray-500 font-medium">Your Health, Our Priority</p>
+                </div>
+              </Link>
             </div>
             <button
               className="lg:hidden text-gray-500 hover:text-gray-600"
@@ -78,11 +92,10 @@ export default function DoctorLayout({
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
-                    isActive
+                  className={`flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors ${isActive
                       ? 'bg-[#D98586] text-white'
                       : 'text-gray-600 hover:bg-gray-50'
-                  }`}
+                    }`}
                 >
                   <item.icon className={`mr-3 ${isActive ? 'text-white' : 'text-[#D98586]'}`} />
                   {item.name}

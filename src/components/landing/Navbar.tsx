@@ -1,16 +1,50 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState<string>("");
 
   const navLinkClasses = `text-sm font-semibold transition-all duration-200 text-[#2D3436] hover:text-[#232323] animated-underline`;
 
   const buttonClasses = `group inline-flex items-center justify-center px-6 py-2.5 text-sm font-medium rounded-full transition-all duration-300 bg-[#D98586] text-white hover:bg-[#D98586] hover:scale-105`;
+
+  const navLinks = [
+    { name: "Features", href: "features" },
+    { name: "How It Works", href: "how-it-works" },
+    { name: "Benefits", href: "benefits" },
+    { name: "FAQ", href: "faq" },
+  ];
+
+  const scrollToSection = (sectionId: string) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+      setCurrentPage(sectionId);
+      setIsMobileMenuOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    const sections = document.querySelectorAll("section");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setCurrentPage(entry.target.id);
+          }
+        });
+      },
+      { threshold: 0.6 }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => sections.forEach((section) => observer.unobserve(section));
+  }, []);
 
   return (
     <motion.nav
@@ -22,40 +56,36 @@ export default function Navbar() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center">
-            <div className="w-32 h-12 relative">
-              <Image
-                src="/logo.png"
-                alt="CareConnect Logo"
-                fill
-                className="object-contain"
-                priority
-              />
-            </div>
-          </Link>
+          <div className="">
+            <Link href="/" className="flex items-center space-x-3 group">
+              <div className="relative w-10 h-10 flex-shrink-0">
+                <Image
+                  src="/logo.png"
+                  alt="CareConnect Logo"
+                  fill
+                  className="object-contain transition-transform duration-200 group-hover:scale-105"
+                />
+              </div>
+              <div className="min-w-0">
+                <h1 className="text-xl font-semibold text-gray-900 truncate">
+                  CareConnect
+                </h1>
+                <p className="text-xs text-gray-500 font-medium">Your Health, Our Priority</p>
+              </div>
+            </Link>
+          </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link href="#features" className={navLinkClasses}>
-              <span className="flex items-center">
-                Features
-              </span>
-            </Link>
-            <Link href="#how-it-works" className={navLinkClasses}>
-              <span className="flex items-center">
-                How It Works
-              </span>
-            </Link>
-            <Link href="#benefits" className={navLinkClasses}>
-              <span className="flex items-center">
-                Benefits
-              </span>
-            </Link>
-            <Link href="#faq" className={navLinkClasses}>
-              <span className="flex items-center">
-                FAQ
-              </span>
-            </Link>
+            {
+              navLinks.map((nav, index) => (
+                <button key={index} onClick={() => scrollToSection(nav.href)} className={navLinkClasses}>
+                  <span className="flex items-center">
+                    {nav.name}
+                  </span>
+                </button>
+              ))
+            }
           </div>
           <Link href="/check-symptoms" className={buttonClasses}>
             <span>Get Started</span>

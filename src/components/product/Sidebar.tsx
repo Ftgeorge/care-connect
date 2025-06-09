@@ -85,7 +85,7 @@ export default function Sidebar() {
             <h1 className="text-xl font-semibold text-gray-900 truncate">
               CareConnect
             </h1>
-            <p className="text-xs text-gray-500 font-medium">AI-Powered Healthcare</p>
+            <p className="text-xs text-gray-500 font-medium">Your Health, Our Priority</p>
           </div>
         </Link>
       </div>

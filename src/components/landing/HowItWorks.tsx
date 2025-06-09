@@ -87,7 +87,7 @@ export default function HowItWorks() {
       >
         <div className="relative w-full h-screen">
           <Image
-            src="/hero.jpg"
+            src="/hiw.jpg"
             alt="Hero Background"
             fill
             className="object-cover"

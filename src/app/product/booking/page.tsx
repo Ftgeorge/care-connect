@@ -291,7 +291,7 @@ export default function DoctorBooking() {
             slots: ['09:00', '10:00', '11:00', '14:00', '15:00'],
           },
         ],
-        image: '/doctors/doctor1.jpg',
+        image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
         location: { lat: 9.0765, lng: 7.3986 }, // Central Business District, Abuja
       },
       {
@@ -310,7 +310,7 @@ export default function DoctorBooking() {
             slots: ['09:00', '10:00', '14:00', '15:00'],
           },
         ],
-        image: '/doctors/doctor2.jpg',
+        image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
         location: { lat: 9.0579, lng: 7.4951 }, // Garki, Abuja
       },
       {
@@ -329,7 +329,7 @@ export default function DoctorBooking() {
             slots: ['10:00', '11:00', '15:00', '16:00'],
           },
         ],
-        image: '/doctors/doctor3.jpg',
+        image: 'https://images.unsplash.com/photo-1506277886164-e25aa3f4ef7f?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
         location: { lat: 9.0412, lng: 7.4898 }, // Wuse II, Abuja
       },
       {
@@ -348,7 +348,7 @@ export default function DoctorBooking() {
             slots: ['11:00', '12:00', '16:00', '17:00'],
           },
         ],
-        image: '/doctors/doctor4.jpg',
+        image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
         location: { lat: 9.0643, lng: 7.4892 }, // Maitama, Abuja
       },
       {
@@ -367,7 +367,7 @@ export default function DoctorBooking() {
             slots: ['09:00', '12:00', '14:00', '17:00'],
           },
         ],
-        image: '/doctors/doctor5.jpg',
+        image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=1961&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
         location: { lat: 9.1084, lng: 7.4224 }, // Gwarinpa, Abuja
       },
     ];

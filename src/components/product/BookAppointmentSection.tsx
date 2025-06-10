@@ -73,7 +73,7 @@ export default function BookAppointmentSection({
 
     // Navigate to profile page
     setTimeout(() => {
-      router.push('/profile?tab=bookings');
+      router.push('/product/bookings');
     }, 1000);
   };
 

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { FaArrowLeft, FaExclamationTriangle, FaUserMd, FaHistory, FaShieldAlt } from 'react-icons/fa';
+import { FaArrowLeft, FaExclamationTriangle, FaUserMd, FaHistory, FaShieldAlt, FaDownload } from 'react-icons/fa';
 
 interface Condition {
   name: string;
@@ -48,6 +48,369 @@ export default function ResultsPage() {
       setError('No analysis results found');
     }
   }, []);
+
+  const downloadReport = async () => {
+    if (!analysis) return;
+
+    try {
+      // Try to dynamically import jsPDF
+      const { jsPDF } = await import('jspdf');
+
+      const doc = new jsPDF();
+
+      // Set up document styling
+      const pageWidth = doc.internal.pageSize.width;
+      const margin = 20;
+      const maxWidth = pageWidth - 2 * margin;
+      let yPosition = 20;
+
+      // Helper function to add text with word wrap
+      const addText = (text: string, fontSize: number = 10, isBold: boolean = false, color: string = '#000000') => {
+        doc.setFontSize(fontSize);
+        doc.setTextColor(color);
+        if (isBold) {
+          doc.setFont('helvetica', 'bold');
+        } else {
+          doc.setFont('helvetica', 'normal');
+        }
+
+        const lines = doc.splitTextToSize(text, maxWidth);
+        if (yPosition + (lines.length * fontSize * 0.4) > doc.internal.pageSize.height - 20) {
+          doc.addPage();
+          yPosition = 20;
+        }
+
+        doc.text(lines, margin, yPosition);
+        yPosition += lines.length * fontSize * 0.4 + 5;
+      };
+
+      // Helper function to add section divider
+      const addDivider = () => {
+        if (yPosition > doc.internal.pageSize.height - 30) {
+          doc.addPage();
+          yPosition = 20;
+        }
+        doc.setDrawColor(220, 220, 220);
+        doc.line(margin, yPosition, pageWidth - margin, yPosition);
+        yPosition += 10;
+      };
+
+      // Title
+      addText('SYMPTOM ANALYSIS REPORT', 20, true, '#D98586');
+      yPosition += 5;
+      addDivider();
+
+      // Date
+      addText(`Report Date: ${new Date(analysis.date).toLocaleDateString()}`, 12, true);
+      yPosition += 5;
+
+      // Medical History
+      if (analysis.medicalHistory) {
+        addText('MEDICAL HISTORY', 14, true, '#D98586');
+
+        if (analysis.medicalHistory.age) {
+          addText(`Age: ${analysis.medicalHistory.age}`);
+        }
+        if (analysis.medicalHistory.gender) {
+          addText(`Gender: ${analysis.medicalHistory.gender}`);
+        }
+        if (analysis.medicalHistory.existingConditions?.length) {
+          addText(`Existing Conditions: ${analysis.medicalHistory.existingConditions.join(', ')}`);
+        }
+        if (analysis.medicalHistory.medications?.length) {
+          addText(`Current Medications: ${analysis.medicalHistory.medications.join(', ')}`);
+        }
+        if (analysis.medicalHistory.allergies?.length) {
+          addText(`Known Allergies: ${analysis.medicalHistory.allergies.join(', ')}`);
+        }
+        if (analysis.medicalHistory.familyHistory?.length) {
+          addText(`Family History: ${analysis.medicalHistory.familyHistory.join(', ')}`);
+        }
+
+        yPosition += 5;
+        addDivider();
+      }
+
+      // Reported Symptoms
+      addText('REPORTED SYMPTOMS', 14, true, '#D98586');
+      analysis.symptoms.forEach(symptom => {
+        addText(`• ${symptom}`);
+      });
+      yPosition += 5;
+      addDivider();
+
+      // Severity Assessment
+      addText('SEVERITY ASSESSMENT', 14, true, '#D98586');
+      const severityColor = analysis.overallSeverity === 'high' ? '#DC2626' :
+        analysis.overallSeverity === 'medium' ? '#D97706' : '#059669';
+      addText(`Overall Severity: ${analysis.overallSeverity.toUpperCase()}`, 12, true, severityColor);
+      yPosition += 5;
+      addDivider();
+
+      // Possible Conditions
+      addText('POSSIBLE CONDITIONS', 14, true, '#D98586');
+      analysis.conditions.forEach((condition, index) => {
+        addText(`${index + 1}. ${condition.name}`, 12, true);
+        addText(`Probability: ${condition.probability}%`);
+        addText(`Description: ${condition.description}`);
+        addText(`Severity: ${condition.severity} | Priority: ${condition.urgency}`);
+        addText('Recommendations:', 11, true);
+        condition.recommendations.forEach(rec => {
+          addText(`  • ${rec}`);
+        });
+        yPosition += 3;
+      });
+      addDivider();
+
+      // Preventive Measures
+      addText('PREVENTIVE MEASURES', 14, true, '#D98586');
+      analysis.preventiveMeasures.forEach(measure => {
+        addText(`• ${measure}`);
+      });
+      yPosition += 5;
+      addDivider();
+
+      // Follow-up Actions
+      addText('FOLLOW-UP ACTIONS', 14, true, '#D98586');
+      analysis.followUpActions.forEach(action => {
+        addText(`• ${action}`);
+      });
+      yPosition += 5;
+      addDivider();
+
+      // General Recommendations
+      addText('GENERAL RECOMMENDATIONS', 14, true, '#D98586');
+      analysis.recommendations.forEach(rec => {
+        addText(`• ${rec}`);
+      });
+      yPosition += 10;
+      addDivider();
+
+      // Disclaimer
+      addText('MEDICAL DISCLAIMER', 14, true, '#DC2626');
+      addText('This analysis is based on the symptoms you provided and is not a replacement for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition. Never disregard professional medical advice or delay in seeking it because of something you have read in this report.');
+
+      // Footer
+      if (yPosition > doc.internal.pageSize.height - 40) {
+        doc.addPage();
+        yPosition = doc.internal.pageSize.height - 30;
+      } else {
+        yPosition = doc.internal.pageSize.height - 30;
+      }
+
+      doc.setFontSize(8);
+      doc.setTextColor('#666666');
+      doc.text(`Generated on ${new Date().toLocaleString()}`, margin, yPosition);
+      doc.text('Confidential Medical Report', pageWidth - margin - 40, yPosition);
+
+      // Save the PDF
+      const fileName = `symptom-analysis-report-${new Date().toISOString().split('T')[0]}.pdf`;
+      doc.save(fileName);
+
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+
+      // Show user-friendly error message
+      alert('PDF generation requires additional dependencies. Downloading as text file instead.');
+
+      // Fallback to text download
+      const reportContent = generateTextReportContent(analysis);
+      const blob = new Blob([reportContent], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `symptom-analysis-report-${new Date().toISOString().split('T')[0]}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+  };
+
+  // Helper function for text report generation
+  const generateTextReportContent = (analysis: Analysis): string => {
+    let content = '';
+
+    content += '='.repeat(60) + '\n';
+    content += '           SYMPTOM ANALYSIS REPORT\n';
+    content += '='.repeat(60) + '\n\n';
+
+    content += `Date: ${new Date(analysis.date).toLocaleDateString()}\n\n`;
+
+    // Medical History
+    if (analysis.medicalHistory) {
+      content += 'MEDICAL HISTORY:\n';
+      content += '-'.repeat(20) + '\n';
+      if (analysis.medicalHistory.age) content += `Age: ${analysis.medicalHistory.age}\n`;
+      if (analysis.medicalHistory.gender) content += `Gender: ${analysis.medicalHistory.gender}\n`;
+      if (analysis.medicalHistory.existingConditions?.length) {
+        content += `Existing Conditions: ${analysis.medicalHistory.existingConditions.join(', ')}\n`;
+      }
+      if (analysis.medicalHistory.medications?.length) {
+        content += `Medications: ${analysis.medicalHistory.medications.join(', ')}\n`;
+      }
+      if (analysis.medicalHistory.allergies?.length) {
+        content += `Allergies: ${analysis.medicalHistory.allergies.join(', ')}\n`;
+      }
+      if (analysis.medicalHistory.familyHistory?.length) {
+        content += `Family History: ${analysis.medicalHistory.familyHistory.join(', ')}\n`;
+      }
+      content += '\n';
+    }
+
+    // Symptoms
+    content += 'REPORTED SYMPTOMS:\n';
+    content += '-'.repeat(20) + '\n';
+    analysis.symptoms.forEach(symptom => {
+      content += `• ${symptom}\n`;
+    });
+    content += '\n';
+
+    // Severity
+    content += 'SEVERITY ASSESSMENT:\n';
+    content += '-'.repeat(20) + '\n';
+    content += `Overall Severity: ${analysis.overallSeverity.toUpperCase()}\n\n`;
+
+    // Conditions
+    content += 'POSSIBLE CONDITIONS:\n';
+    content += '-'.repeat(20) + '\n';
+    analysis.conditions.forEach((condition, index) => {
+      content += `${index + 1}. ${condition.name} (${condition.probability}% probability)\n`;
+      content += `   Description: ${condition.description}\n`;
+      content += `   Severity: ${condition.severity}\n`;
+      content += `   Urgency: ${condition.urgency}\n`;
+      content += `   Recommendations:\n`;
+      condition.recommendations.forEach(rec => {
+        content += `   • ${rec}\n`;
+      });
+      content += '\n';
+    });
+
+    // Preventive Measures
+    content += 'PREVENTIVE MEASURES:\n';
+    content += '-'.repeat(20) + '\n';
+    analysis.preventiveMeasures.forEach(measure => {
+      content += `• ${measure}\n`;
+    });
+    content += '\n';
+
+    // Follow-up Actions
+    content += 'FOLLOW-UP ACTIONS:\n';
+    content += '-'.repeat(20) + '\n';
+    analysis.followUpActions.forEach(action => {
+      content += `• ${action}\n`;
+    });
+    content += '\n';
+
+    // General Recommendations
+    content += 'GENERAL RECOMMENDATIONS:\n';
+    content += '-'.repeat(20) + '\n';
+    analysis.recommendations.forEach(rec => {
+      content += `• ${rec}\n`;
+    });
+    content += '\n';
+
+    // Disclaimer
+    content += 'DISCLAIMER:\n';
+    content += '-'.repeat(20) + '\n';
+    content += 'This analysis is based on the symptoms you provided and is not a\n';
+    content += 'replacement for professional medical advice. Please consult with a\n';
+    content += 'healthcare provider for proper diagnosis and treatment.\n';
+
+    return content;
+  };
+
+  const generateReportContent = (analysis: Analysis): string => {
+    let content = '';
+
+    content += '='.repeat(60) + '\n';
+    content += '           SYMPTOM ANALYSIS REPORT\n';
+    content += '='.repeat(60) + '\n\n';
+
+    content += `Date: ${new Date(analysis.date).toLocaleDateString()}\n\n`;
+
+    // Medical History
+    if (analysis.medicalHistory) {
+      content += 'MEDICAL HISTORY:\n';
+      content += '-'.repeat(20) + '\n';
+      if (analysis.medicalHistory.age) content += `Age: ${analysis.medicalHistory.age}\n`;
+      if (analysis.medicalHistory.gender) content += `Gender: ${analysis.medicalHistory.gender}\n`;
+      if (analysis.medicalHistory.existingConditions?.length) {
+        content += `Existing Conditions: ${analysis.medicalHistory.existingConditions.join(', ')}\n`;
+      }
+      if (analysis.medicalHistory.medications?.length) {
+        content += `Medications: ${analysis.medicalHistory.medications.join(', ')}\n`;
+      }
+      if (analysis.medicalHistory.allergies?.length) {
+        content += `Allergies: ${analysis.medicalHistory.allergies.join(', ')}\n`;
+      }
+      if (analysis.medicalHistory.familyHistory?.length) {
+        content += `Family History: ${analysis.medicalHistory.familyHistory.join(', ')}\n`;
+      }
+      content += '\n';
+    }
+
+    // Symptoms
+    content += 'REPORTED SYMPTOMS:\n';
+    content += '-'.repeat(20) + '\n';
+    analysis.symptoms.forEach(symptom => {
+      content += `• ${symptom}\n`;
+    });
+    content += '\n';
+
+    // Severity
+    content += 'SEVERITY ASSESSMENT:\n';
+    content += '-'.repeat(20) + '\n';
+    content += `Overall Severity: ${analysis.overallSeverity.toUpperCase()}\n\n`;
+
+    // Conditions
+    content += 'POSSIBLE CONDITIONS:\n';
+    content += '-'.repeat(20) + '\n';
+    analysis.conditions.forEach((condition, index) => {
+      content += `${index + 1}. ${condition.name} (${condition.probability}% probability)\n`;
+      content += `   Description: ${condition.description}\n`;
+      content += `   Severity: ${condition.severity}\n`;
+      content += `   Urgency: ${condition.urgency}\n`;
+      content += `   Recommendations:\n`;
+      condition.recommendations.forEach(rec => {
+        content += `   • ${rec}\n`;
+      });
+      content += '\n';
+    });
+
+    // Preventive Measures
+    content += 'PREVENTIVE MEASURES:\n';
+    content += '-'.repeat(20) + '\n';
+    analysis.preventiveMeasures.forEach(measure => {
+      content += `• ${measure}\n`;
+    });
+    content += '\n';
+
+    // Follow-up Actions
+    content += 'FOLLOW-UP ACTIONS:\n';
+    content += '-'.repeat(20) + '\n';
+    analysis.followUpActions.forEach(action => {
+      content += `• ${action}\n`;
+    });
+    content += '\n';
+
+    // General Recommendations
+    content += 'GENERAL RECOMMENDATIONS:\n';
+    content += '-'.repeat(20) + '\n';
+    analysis.recommendations.forEach(rec => {
+      content += `• ${rec}\n`;
+    });
+    content += '\n';
+
+    // Disclaimer
+    content += 'DISCLAIMER:\n';
+    content += '-'.repeat(20) + '\n';
+    content += 'This analysis is based on the symptoms you provided and is not a\n';
+    content += 'replacement for professional medical advice. Please consult with a\n';
+    content += 'healthcare provider for proper diagnosis and treatment.\n';
+
+    return content;
+  };
 
   if (error) {
     return (
@@ -99,13 +462,13 @@ export default function ResultsPage() {
             <h1 className="text-2xl font-semibold text-[#2D3436]">
               Analysis Results
             </h1>
-            <Link
-              href="/product/booking"
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-[#D98586] hover:bg-[#D98586]/90"
+            <button
+              onClick={downloadReport}
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-[#D98586] hover:bg-[#D98586]/90 transition-colors"
             >
-              <FaArrowLeft className="mr-2" />
-              Back
-            </Link>
+              <FaDownload className="mr-2" />
+              Download Report
+            </button>
           </div>
 
           {/* Medical History Summary */}
@@ -128,7 +491,7 @@ export default function ResultsPage() {
                     <span className="ml-2 text-gray-900">{analysis.medicalHistory.gender}</span>
                   </div>
                 )}
-                {analysis.medicalHistory.existingConditions?.length > 0 && (
+                {analysis.medicalHistory.existingConditions && analysis.medicalHistory.existingConditions.length > 0 && (
                   <div className="col-span-2">
                     <span className="text-gray-500">Existing Conditions:</span>
                     <span className="ml-2 text-gray-900">
@@ -136,7 +499,7 @@ export default function ResultsPage() {
                     </span>
                   </div>
                 )}
-                {analysis.medicalHistory.medications?.length > 0 && (
+                {analysis.medicalHistory.medications && analysis.medicalHistory.medications.length > 0 && (
                   <div className="col-span-2">
                     <span className="text-gray-500">Medications:</span>
                     <span className="ml-2 text-gray-900">
@@ -144,7 +507,7 @@ export default function ResultsPage() {
                     </span>
                   </div>
                 )}
-                {analysis.medicalHistory.allergies?.length > 0 && (
+                {analysis.medicalHistory.allergies && analysis.medicalHistory.allergies.length > 0 && (
                   <div className="col-span-2">
                     <span className="text-gray-500">Allergies:</span>
                     <span className="ml-2 text-gray-900">
@@ -152,7 +515,7 @@ export default function ResultsPage() {
                     </span>
                   </div>
                 )}
-                {analysis.medicalHistory.familyHistory?.length > 0 && (
+                {analysis.medicalHistory.familyHistory && analysis.medicalHistory.familyHistory.length > 0 && (
                   <div className="col-span-2">
                     <span className="text-gray-500">Family History:</span>
                     <span className="ml-2 text-gray-900">
@@ -187,13 +550,12 @@ export default function ResultsPage() {
               Severity Assessment
             </h2>
             <div
-              className={`p-4 rounded-lg ${
-                analysis.overallSeverity === 'high'
+              className={`p-4 rounded-lg ${analysis.overallSeverity === 'high'
                   ? 'bg-red-50 text-red-700'
                   : analysis.overallSeverity === 'medium'
-                  ? 'bg-yellow-50 text-yellow-700'
-                  : 'bg-green-50 text-green-700'
-              }`}
+                    ? 'bg-yellow-50 text-yellow-700'
+                    : 'bg-green-50 text-green-700'
+                }`}
             >
               <p className="font-medium">
                 {analysis.overallSeverity.charAt(0).toUpperCase() +
@@ -225,26 +587,24 @@ export default function ResultsPage() {
                   <p className="text-gray-600 mb-4">{condition.description}</p>
                   <div className="flex items-center space-x-4 mb-4">
                     <span
-                      className={`px-3 py-1 rounded-full text-sm ${
-                        condition.severity === 'high'
+                      className={`px-3 py-1 rounded-full text-sm ${condition.severity === 'high'
                           ? 'bg-red-100 text-red-700'
                           : condition.severity === 'medium'
-                          ? 'bg-yellow-100 text-yellow-700'
-                          : 'bg-green-100 text-green-700'
-                      }`}
+                            ? 'bg-yellow-100 text-yellow-700'
+                            : 'bg-green-100 text-green-700'
+                        }`}
                     >
                       {condition.severity.charAt(0).toUpperCase() +
                         condition.severity.slice(1)}{' '}
                       Severity
                     </span>
                     <span
-                      className={`px-3 py-1 rounded-full text-sm ${
-                        condition.urgency === 'emergency'
+                      className={`px-3 py-1 rounded-full text-sm ${condition.urgency === 'emergency'
                           ? 'bg-red-100 text-red-700'
                           : condition.urgency === 'urgent'
-                          ? 'bg-yellow-100 text-yellow-700'
-                          : 'bg-green-100 text-green-700'
-                      }`}
+                            ? 'bg-yellow-100 text-yellow-700'
+                            : 'bg-green-100 text-green-700'
+                        }`}
                     >
                       {condition.urgency.charAt(0).toUpperCase() +
                         condition.urgency.slice(1)}{' '}
@@ -355,4 +715,4 @@ export default function ResultsPage() {
       </div>
     </div>
   );
-} 
+}

@@ -5,20 +5,41 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import SymptomChat from '@/components/product/SymptomChat';
 import QuickSuggestions from '@/components/product/QuickSuggestions';
-import { analyzeSymptoms, getPreventiveRecommendations } from '@/services/ai-service';
+import { 
+  analyzeSymptoms, 
+  getPreventiveRecommendations,
+  getConversationResponse,
+  getMoreSymptomsResponse,
+  getMoreConditionsResponse,
+  getAnalyzingResponse,
+  getInvalidAgeResponse
+} from '@/services/ai-service';
 
 const quickSuggestions = [
-  "Headache and fever",
-  "Stomach pain",
+  "Headache and feeling tired",
+  "Stomach pain and nausea",
   "Cough and sore throat",
-  "Back pain",
-  "Fatigue and dizziness"
+  "Back pain and stiffness",
+  "Dizziness and fatigue"
+];
+
+// Enhanced greeting messages
+const GREETING_MESSAGES = [
+  "Hello! I'm here to help you understand your symptoms. What's been bothering you lately?",
+  "Hi there! I'm your AI health assistant. Tell me, what symptoms have you been experiencing?",
+  "Hey! I'm here to help you figure out what might be going on with your health. What's troubling you today?",
+  "Hello! Ready to help you with your health concerns. What symptoms would you like to discuss?",
+  "Hi! I'm your personal health assistant. What's been on your mind health-wise?"
 ];
 
 export default function SymptomChecker() {
   const router = useRouter();
   const [messages, setMessages] = useState<Array<{ type: 'user' | 'ai', content: string, timestamp: Date }>>([
-    { type: 'ai', content: "Hello! I'm your AI health assistant. What's bothering you today?", timestamp: new Date() }
+    { 
+      type: 'ai', 
+      content: GREETING_MESSAGES[Math.floor(Math.random() * GREETING_MESSAGES.length)], 
+      timestamp: new Date() 
+    }
   ]);
   const [conversationStep, setConversationStep] = useState(0);
   const [currentSymptom, setCurrentSymptom] = useState<string | null>(null);
@@ -33,6 +54,14 @@ export default function SymptomChecker() {
     allergies: [] as string[],
     familyHistory: [] as string[]
   });
+
+  const addAIMessage = (content: string) => {
+    setMessages(prev => [...prev, { 
+      type: 'ai', 
+      content,
+      timestamp: new Date()
+    }]);
+  };
 
   const handleSendMessage = async (message: string) => {
     try {
@@ -50,93 +79,90 @@ export default function SymptomChecker() {
       if (conversationStep === 0) {
         setCurrentSymptom(message);
         setCollectedSymptoms([message]);
-        setMessages(prev => [...prev, { 
-          type: 'ai', 
-          content: "How long have you been experiencing these symptoms?",
-          timestamp: new Date()
-        }]);
+        
+        // Use enhanced conversation response
+        addAIMessage(getConversationResponse(1));
         setConversationStep(1);
+        
       } else if (conversationStep === 1) {
-        // Duration response
-        setMessages(prev => [...prev, { 
-          type: 'ai', 
-          content: "Have you taken any medications for these symptoms?",
-          timestamp: new Date()
-        }]);
+        // Duration response - add some contextual awareness
+        const durationIndicators = ['day', 'week', 'month', 'hour', 'yesterday', 'today'];
+        const hasDuration = durationIndicators.some(indicator => 
+          message.toLowerCase().includes(indicator)
+        );
+        
+        if (hasDuration) {
+          addAIMessage(getConversationResponse(2));
+        } else {
+          addAIMessage("I see. " + getConversationResponse(2));
+        }
         setConversationStep(2);
+        
       } else if (conversationStep === 2) {
-        // Medication response
-        setMessages(prev => [...prev, { 
-          type: 'ai', 
-          content: "Are you experiencing any other symptoms?",
-          timestamp: new Date()
-        }]);
+        // Medication response - acknowledge what they've taken
+        const medicationIndicators = ['tylenol', 'ibuprofen', 'aspirin', 'nothing', 'no', 'none'];
+        const mentionedMeds = medicationIndicators.some(med => 
+          message.toLowerCase().includes(med)
+        );
+        
+        if (mentionedMeds) {
+          if (message.toLowerCase().includes('nothing') || message.toLowerCase().includes('no')) {
+            addAIMessage("Okay, no medications so far. " + getConversationResponse(3));
+          } else {
+            addAIMessage("Got it, thanks for letting me know. " + getConversationResponse(3));
+          }
+        } else {
+          addAIMessage(getConversationResponse(3));
+        }
         setConversationStep(3);
+        
       } else if (conversationStep === 3) {
         // Additional symptoms
-        if (message.toLowerCase() !== 'no') {
-          setCollectedSymptoms(prev => [...prev, message]);
-          setMessages(prev => [...prev, { 
-            type: 'ai', 
-            content: "Any other symptoms? (Type 'no' if none)",
-            timestamp: new Date()
-          }]);
-        } else {
+        if (message.toLowerCase().includes('no') || message.toLowerCase().includes('nothing') || 
+            message.toLowerCase().includes('none') || message.toLowerCase().includes('that\'s it')) {
           // Start medical history collection
-          setMessages(prev => [...prev, { 
-            type: 'ai', 
-            content: "To provide better analysis, could you share your age?",
-            timestamp: new Date()
-          }]);
+          addAIMessage(getConversationResponse(4));
           setConversationStep(4);
+        } else {
+          setCollectedSymptoms(prev => [...prev, message]);
+          addAIMessage(getMoreSymptomsResponse());
         }
+        
       } else if (conversationStep === 4) {
-        // Age
+        // Age - enhanced validation and response
         const age = parseInt(message);
-        if (!isNaN(age)) {
+        if (!isNaN(age) && age > 0 && age < 150) {
           setMedicalHistory(prev => ({ ...prev, age }));
-          setMessages(prev => [...prev, { 
-            type: 'ai', 
-            content: "What is your gender?",
-            timestamp: new Date()
-          }]);
+          
+          // Add contextual response based on age
+          let ageResponse = "";
+          if (age < 18) {
+            ageResponse = "Thanks! Since you're under 18, please make sure to involve a parent or guardian in any health decisions. ";
+          } else if (age > 65) {
+            ageResponse = "Thank you for that information. ";
+          } else {
+            ageResponse = "Got it, thanks! ";
+          }
+          
+          addAIMessage(ageResponse + getConversationResponse(5));
           setConversationStep(5);
         } else {
-          setMessages(prev => [...prev, { 
-            type: 'ai', 
-            content: "Please enter a valid age number.",
-            timestamp: new Date()
-          }]);
+          addAIMessage(getInvalidAgeResponse());
         }
+        
       } else if (conversationStep === 5) {
-        // Gender
+        // Gender - more inclusive approach
         setMedicalHistory(prev => ({ ...prev, gender: message }));
-        setMessages(prev => [...prev, { 
-          type: 'ai', 
-          content: "Do you have any existing medical conditions? (Type 'none' if none)",
-          timestamp: new Date()
-        }]);
+        addAIMessage("Perfect, thank you. " + getConversationResponse(6));
         setConversationStep(6);
+        
       } else if (conversationStep === 6) {
         // Existing conditions
-        if (message.toLowerCase() !== 'none') {
-          setMedicalHistory(prev => ({
-            ...prev,
-            existingConditions: [...prev.existingConditions, message]
-          }));
-          setMessages(prev => [...prev, { 
-            type: 'ai', 
-            content: "Any other conditions? (Type 'none' if none)",
-            timestamp: new Date()
-          }]);
-        } else {
-          // Analyze symptoms with AI
-          setMessages(prev => [...prev, { 
-            type: 'ai', 
-            content: "Analyzing your symptoms...",
-            timestamp: new Date()
-          }]);
-
+        if (message.toLowerCase().includes('none') || message.toLowerCase().includes('no') || 
+            message.toLowerCase().includes('nothing')) {
+          // Final analysis
+          addAIMessage(getAnalyzingResponse());
+          
           try {
             // Get symptom analysis
             const analysis = await analyzeSymptoms(collectedSymptoms, medicalHistory);
@@ -164,24 +190,28 @@ export default function SymptomChecker() {
               medicalHistory
             }));
             
-            setMessages(prev => [...prev, { 
-              type: 'ai', 
-              content: "Thank you for providing this information. I'll analyze your symptoms and provide recommendations.",
-              timestamp: new Date()
-            }]);
+            addAIMessage("Perfect! I've analyzed everything you've shared with me. Let me prepare your personalized health insights...");
 
             // Redirect to results page
             setTimeout(() => {
               router.push('/product/results');
-            }, 1500);
+            }, 2000);
+            
           } catch (err) {
             console.error('Error analyzing symptoms:', err);
-            setError('An error occurred while analyzing your symptoms. Please try again.');
+            setError('Hmm, I ran into an issue analyzing your symptoms. Could you try again?');
           }
+        } else {
+          // Add condition and ask for more
+          setMedicalHistory(prev => ({
+            ...prev,
+            existingConditions: [...prev.existingConditions, message]
+          }));
+          addAIMessage(getMoreConditionsResponse());
         }
       }
     } catch (err) {
-      setError('An error occurred while processing your message. Please try again.');
+      setError('Sorry, something went wrong while processing your message. Could you try that again?');
       console.error('Error in handleSendMessage:', err);
     } finally {
       setIsLoading(false);
@@ -189,9 +219,10 @@ export default function SymptomChecker() {
   };
 
   const handleStartNewCheck = () => {
+    const newGreeting = GREETING_MESSAGES[Math.floor(Math.random() * GREETING_MESSAGES.length)];
     setMessages([{
       type: 'ai',
-      content: "Hello! I'm your AI health assistant. What's bothering you today?",
+      content: newGreeting,
       timestamp: new Date()
     }]);
     setConversationStep(0);
@@ -221,14 +252,14 @@ export default function SymptomChecker() {
               Symptom Checker
             </h1>
             <p className="text-[#636e72]">
-              Describe your symptoms and get instant AI-powered health insights
+              Chat with our AI assistant about your symptoms and get personalized health insights
             </p>
           </div>
           <button
             onClick={handleStartNewCheck}
             className="px-4 py-2 bg-gray-100 text-[#2D3436] rounded-lg hover:bg-gray-200 transition-colors"
           >
-            Start New Check
+            Start Fresh
           </button>
         </motion.div>
 

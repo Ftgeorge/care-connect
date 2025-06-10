@@ -78,7 +78,7 @@ export default function HowItWorks() {
     <section
       ref={sectionRef}
       id="how-it-works"
-      className="relative min-h-screen flex items-center overflow-hidden py-24"
+      className="relative h-screen flex items-center overflow-hidden py-24"
     >
       {/* Parallax Background Layer */}
       <motion.div

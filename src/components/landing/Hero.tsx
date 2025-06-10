@@ -15,7 +15,7 @@ export default function Hero() {
 
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image with Parallax */}
       <motion.div
         style={{ y: y }}
@@ -42,8 +42,8 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-              Your AI-Powered Health Assistant
+            <h1 className="text-4xl md:text-4xl lg:text-4xl xl:text-6xl font-bold text-white mb-6">
+              Your Health Our Priority
             </h1>
             <p className="text-xl text-gray-200 mb-8">
               Get instant health insights and connect with doctors from the comfort of your home

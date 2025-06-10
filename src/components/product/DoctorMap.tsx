@@ -207,7 +207,10 @@ export default function DoctorMap({ userLocation, doctors, onDoctorSelect, isBac
         map.scrollWheelZoom.disable();
         map.boxZoom.disable();
         map.keyboard.disable();
-        if (map.tap) map.tap.disable();
+        // Safe check for tap handler (only exists on mobile)
+        if ((map as any).tap) {
+          (map as any).tap.disable();
+        }
       }
 
       mapInstanceRef.current = map;

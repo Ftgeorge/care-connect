@@ -37,7 +37,7 @@ export default function ResultsPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const storedAnalysis = localStorage.getItem('symptomAnalysis');
+    const storedAnalysis = sessionStorage.getItem('symptomAnalysis');
     if (storedAnalysis) {
       try {
         setAnalysis(JSON.parse(storedAnalysis));

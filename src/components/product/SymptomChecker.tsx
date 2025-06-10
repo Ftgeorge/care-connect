@@ -86,8 +86,8 @@ export default function SymptomChecker() {
       <div className="bg-white rounded-2xl shadow-lg p-6">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-semibold text-[#2D3436]">
-            Symptom Checker
-          </h2>
+          Symptom Checker
+        </h2>
           <button
             onClick={() => setShowMedicalHistory(!showMedicalHistory)}
             className="flex items-center space-x-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"

@@ -1,12 +1,7 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import {
-  FaUser, FaHistory, FaCog, FaSignOutAlt, FaEdit, FaBell, FaMoon, FaSun,
-  FaCalendar, FaStethoscope, FaChevronRight, FaEnvelope, FaBirthdayCake,
-  FaToggleOn, FaToggleOff, FaCalendarAlt, FaClock, FaUserMd, FaMapMarkerAlt,
-  FaCheckCircle, FaTimesCircle, FaSpinner, FaAward, FaHeart
-} from 'react-icons/fa';
+import { useState, useEffect } from 'react';
+import { FaCalendarAlt, FaClock, FaUserMd, FaTimes, FaCheck, FaExclamationTriangle } from 'react-icons/fa';
 
 interface Booking {
   id: string;
@@ -19,115 +14,118 @@ interface Booking {
   createdAt: string;
 }
 
-function BookingsSection() {
+export default function BookingsSection() {
   const [bookings, setBookings] = useState<Booking[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => {
-      const sampleBookings: Booking[] = [
-        {
-          id: '1',
-          doctorId: 'doc1',
-          doctorName: 'Dr. Sarah Johnson',
-          specialization: 'Cardiologist',
-          date: '2025-06-15',
-          time: '10:00 AM',
-          status: 'confirmed',
-          createdAt: '2025-06-01'
-        },
-        {
-          id: '2',
-          doctorId: 'doc2',
-          doctorName: 'Dr. Michael Chen',
-          specialization: 'Dermatologist',
-          date: '2025-06-20',
-          time: '2:30 PM',
-          status: 'pending',
-          createdAt: '2025-06-05'
-        }
-      ];
-      setBookings(sampleBookings);
-      setIsLoading(false);
-    }, 1000);
+    // Get bookings from localStorage
+    const storedBookings = localStorage.getItem('userBookings');
+    if (storedBookings) {
+      setBookings(JSON.parse(storedBookings));
+    }
+    setIsLoading(false);
   }, []);
+
+  const handleCancelBooking = (bookingId: string) => {
+    const updatedBookings = bookings.map(booking =>
+      booking.id === bookingId
+        ? { ...booking, status: 'cancelled' as const }
+        : booking
+    );
+    setBookings(updatedBookings);
+    localStorage.setItem('userBookings', JSON.stringify(updatedBookings));
+  };
 
   const getStatusColor = (status: Booking['status']) => {
     switch (status) {
       case 'confirmed':
-        return 'bg-emerald-100 text-emerald-700 border-emerald-200';
+        return 'bg-green-100 text-green-800';
       case 'cancelled':
-        return 'bg-red-100 text-red-700 border-red-200';
+        return 'bg-red-100 text-red-800';
       default:
-        return 'bg-amber-100 text-amber-700 border-amber-200';
+        return 'bg-yellow-100 text-yellow-800';
     }
   };
 
   const getStatusIcon = (status: Booking['status']) => {
     switch (status) {
       case 'confirmed':
-        return <FaCheckCircle className="text-emerald-500" />;
+        return <FaCheck className="text-green-600" />;
       case 'cancelled':
-        return <FaTimesCircle className="text-red-500" />;
+        return <FaTimes className="text-red-600" />;
       default:
-        return <FaSpinner className="text-amber-500 animate-spin" />;
+        return <FaExclamationTriangle className="text-yellow-600" />;
     }
   };
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center p-8">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-500"></div>
+      <div className="flex items-center justify-center py-8">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
       </div>
     );
   }
 
   if (bookings.length === 0) {
     return (
-      <div className="text-center p-8">
-        <div className="w-16 h-16 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <FaCalendarAlt className="text-indigo-400 text-2xl" />
-        </div>
-        <h3 className="text-lg font-semibold text-gray-800 mb-2">No Bookings Yet</h3>
-        <p className="text-gray-600">Your appointment history will appear here</p>
+      <div className="text-center py-8">
+        <p className="text-gray-600">No bookings found</p>
       </div>
     );
   }
 
   return (
-     <div className="space-y-4">
+    <div className="space-y-4">
       {bookings.map((booking) => (
         <div
           key={booking.id}
-          className="bg-white border border-gray-200 rounded-lg p-4 hover:border-gray-300 transition-colors duration-200"
+          className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
         >
-          <div className="flex justify-between items-start mb-3">
-            <div className="flex items-start space-x-3">
-              <div className="w-10 h-10 rounded-lg border-2 border-gray-300 flex items-center justify-center text-gray-600 font-medium text-sm">
-                {booking.doctorName.split(' ').map(n => n[0]).join('')}
-              </div>
-              <div>
-                <h4 className="font-medium text-gray-800 text-sm">{booking.doctorName}</h4>
-                <p className="text-xs text-gray-500">{booking.specialization}</p>
-              </div>
-            </div>
-            <div className={`px-2 py-1 rounded border text-xs font-medium flex items-center space-x-1 ${getStatusColor(booking.status)}`}>
-              {getStatusIcon(booking.status)}
-              <span>{booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}</span>
-            </div>
-          </div>
+          <div className="p-4">
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <div className="flex items-center space-x-3">
+                  <FaUserMd className="text-blue-600 text-lg" />
+                  <div>
+                    <h3 className="font-semibold text-gray-900">{booking.doctorName}</h3>
+                    <p className="text-sm text-gray-600">{booking.specialization}</p>
+                  </div>
+                </div>
 
-          <div className="grid grid-cols-2 gap-3 text-xs">
-            <div className="flex items-center space-x-2 text-gray-600">
-              <FaCalendarAlt className="text-gray-400" />
-              <span>{new Date(booking.date).toLocaleDateString('en-US', {
-                month: 'short',
-                day: 'numeric'
-              })}</span>
-            </div>
-            <div className="flex items-center space-x-2 text-gray-600">
-              <FaClock className="text-gray-400" />
-              <span>{booking.time}</span>
+                <div className="mt-4 grid grid-cols-2 gap-4">
+                  <div className="flex items-center space-x-2">
+                    <FaCalendarAlt className="text-gray-400" />
+                    <span className="text-sm text-gray-600">
+                      {new Date(booking.date).toLocaleDateString('en-US', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                      })}
+                    </span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <FaClock className="text-gray-400" />
+                    <span className="text-sm text-gray-600">{booking.time}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-col items-end space-y-2">
+                <div className={`px-3 py-1 rounded-full text-sm font-medium flex items-center space-x-1 ${getStatusColor(booking.status)}`}>
+                  {getStatusIcon(booking.status)}
+                  <span className="capitalize">{booking.status}</span>
+                </div>
+                {booking.status === 'pending' && (
+                  <button
+                    onClick={() => handleCancelBooking(booking.id)}
+                    className="text-sm text-red-600 hover:text-red-700 font-medium"
+                  >
+                    Cancel Booking
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -135,5 +133,3 @@ function BookingsSection() {
     </div>
   );
 }
-
-export default BookingsSection;

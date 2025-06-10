@@ -3,6 +3,7 @@
 import BookAppointmentSection from '@/components/product/BookAppointmentSection';
 import { useState, useEffect, useRef } from 'react';
 import { FaClock, FaVideo, FaCalendarAlt, FaTimes, FaStar, FaMapMarkerAlt } from 'react-icons/fa';
+import Image from 'next/image';
 
 interface Doctor {
   id: string;
@@ -482,14 +483,19 @@ export default function DoctorBooking() {
                 {doctors.map((doctor) => (
                   <div
                     key={doctor.id}
-                    className={`bg-white rounded-xl shadow-sm border border-gray-200 p-4 cursor-pointer transition-all duration-200 hover:shadow-md ${
-                      selectedDoctor?.id === doctor.id ? 'ring-2 ring-[#D98586]' : ''
-                    }`}
+                    className={`bg-white rounded-xl shadow-sm border border-gray-200 p-4 cursor-pointer transition-all duration-200 hover:shadow-md ${selectedDoctor?.id === doctor.id ? 'ring-2 ring-[#D98586]' : ''
+                      }`}
                     onClick={() => handleDoctorSelect(doctor)}
                   >
                     <div className="flex items-start space-x-3">
                       <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold">
-                        {doctor.name.split(' ').map(n => n[0]).join('')}
+                        <Image
+                          src={doctor.image}
+                          alt={doctor.name}
+                          width={80}
+                          height={80}
+                          className="object-cover w-full h-full rounded-full"
+                        />
                       </div>
                       <div className="flex-1">
                         <h3 className="font-semibold text-gray-800">{doctor.name}</h3>
@@ -534,7 +540,13 @@ export default function DoctorBooking() {
                   <div className="flex justify-between items-start">
                     <div className="flex items-center space-x-4">
                       <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold text-lg">
-                        {selectedDoctor.name.split(' ').map(n => n[0]).join('')}
+                        <Image
+                          src={selectedDoctor.image}
+                          alt={selectedDoctor.name}
+                          width={80}
+                          height={80}
+                          className="object-cover w-full h-full rounded-full"
+                        />
                       </div>
                       <div>
                         <h3 className="text-2xl font-bold text-gray-800">{selectedDoctor.name}</h3>
@@ -577,10 +589,10 @@ export default function DoctorBooking() {
                     <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6">
                       <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
                         <FaVideo className="mr-3 text-green-600" />
-                        Video Consultation
+                        AUdio Consultation
                       </h4>
                       <p className="text-gray-600 mb-6 leading-relaxed">
-                        Need immediate attention? Start a video consultation with{' '}
+                        Need immediate attention? Start an audio consultation with{' '}
                         <span className="font-semibold text-gray-800">{selectedDoctor.name}</span> right away.
                       </p>
                       <button

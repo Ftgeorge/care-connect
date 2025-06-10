@@ -89,7 +89,7 @@ export default function Features() {
           >
             Key Features
           </motion.span>
-          <h2 className="text-4xl md:text-5xl font-display font-bold text-[#2D3436] mb-4">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold text-[#2D3436] mb-4">
             Why Choose CareConnect?
           </h2>
           <p className="text-xl text-[#636e72] max-w-2xl mx-auto">

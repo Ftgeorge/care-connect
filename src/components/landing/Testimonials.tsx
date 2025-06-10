@@ -126,7 +126,7 @@ export default function Testimonials() {
               <span className="inline-block px-4 py-2 rounded-full bg-[#D98586]/10 text-[#D98586] text-sm font-medium mb-4">
                 Customer Stories
               </span>
-              <h2 className="text-4xl md:text-5xl font-display font-bold text-[#2D3436]">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold text-[#2D3436]">
                 What Our Users Say
               </h2>
             </motion.div>

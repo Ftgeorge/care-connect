@@ -127,7 +127,7 @@ export default function Benefits() {
             <span className="text-sm font-medium">Revolutionary Healthcare Technology</span>
           </div>
 
-          <h2 className="text-6xl md:text-7xl font-bold bg-gradient-to-r from-rose-100 via-rose-300 to-rose-500 bg-clip-text text-transparent mb-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-rose-100 via-rose-300 to-rose-500 bg-clip-text text-transparent mb-6">
             Why Choose
             <br />
             <span className="bg-gradient-to-r from-[#D98586] to-rose-400 bg-clip-text text-transparent">

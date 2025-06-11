@@ -155,7 +155,7 @@ export default function HowItWorks() {
                 {/* Step Number Background Glow */}
                 <div className="absolute -top-1 -left-1 sm:-top-2 sm:-left-2 w-12 h-12 sm:w-16 sm:h-16 bg-rose-500/20 rounded-full blur-xl opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
 
-                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-4 sm:mb-6 relative">
+                <div className="flex flex-row sm:flex-row items-start sm:items-center gap-4 mb-4 sm:mb-6 relative">
                   <motion.div
                     whileHover={{ rotate: 360 }}
                     transition={{ duration: 0.6 }}
@@ -210,13 +210,13 @@ export default function HowItWorks() {
                     whileInView={{ scaleY: 1 }}
                     viewport={{ once: true }}
                     transition={{ delay: (index + 1) * 0.3, duration: 0.8 }}
-                    className="block lg:hidden absolute left-1/2 -bottom-3 w-0.5 h-6 origin-top transform -translate-x-1/2"
+                    className="block lg:hidden absolute left-1/2 -bottom-3 w-0.5 h-6 origin-top transform -translate-x-1/2 flex items-center justify-center"
                     style={{ backgroundColor: '#D98586' }}
                   >
                     <motion.div
                       animate={{ y: [0, 6, 0] }}
                       transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                      className="absolute bottom-0 left-1/2 w-2 h-2 rounded-full transform -translate-x-1/2"
+                      className="absolute bottom-0 left-1/2 size-2 rounded-full transform -translate-x-1/2"
                       style={{ backgroundColor: '#D98586' }}
                     />
                   </motion.div>

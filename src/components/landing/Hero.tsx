@@ -48,12 +48,12 @@ export default function Hero() {
             <p className="text-xl text-gray-200 mb-8">
               Get instant health insights and connect with doctors from the comfort of your home
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-row gap-4 justify-center items-center">
               <Link
                 href="/product"
                 className="inline-flex items-center justify-center px-8 py-3 bg-[#D98586] text-white rounded-full hover:bg-[#D98586]/90 transition-colors group"
               >
-                <span>Get Started</span>
+                <span className='text-sm whitespace-nowrap'>Get Started</span>
                 <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
@@ -61,7 +61,7 @@ export default function Hero() {
                 className="inline-flex items-center justify-center px-8 py-3 bg-white/10 text-white rounded-full hover:bg-white/20 transition-colors backdrop-blur-sm"
               >
                 <FaStethoscope className="mr-2" />
-                <span>Book a Doctor</span>
+                <span className='whitespace-nowrap text-sm'>Book a Doctor</span>
               </Link>
             </div>
           </motion.div>

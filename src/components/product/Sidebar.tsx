@@ -105,134 +105,21 @@ export default function ResponsiveSidebar() {
               </h1>
             </div>
           </Link>
-          
-          {/* Mobile Menu Button */}
-          <button
-            onClick={toggleMobileMenu}
-            className="p-2 rounded-lg text-gray-600 hover:text-[#D98586] hover:bg-gray-50 transition-colors duration-200"
-            aria-label="Toggle mobile menu"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              {isMobileMenuOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              )}
-            </svg>
-          </button>
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="lg:hidden fixed inset-0 z-40 bg-black/50 backdrop-blur-sm"
-            onClick={toggleMobileMenu}
-          />
-        )}
-      </AnimatePresence>
-
-      {/* Mobile Sidebar */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ x: -300, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ x: -300, opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="lg:hidden fixed left-0 top-0 bottom-0 z-50 w-80 max-w-[85vw] bg-white/95 backdrop-blur-sm border-r border-gray-200/60"
-          >
-            {/* Mobile Logo Section */}
-            <div className="px-6 py-6 border-b border-gray-100/80">
-              <Link href="/" className="flex items-center space-x-3 group">
-                <div className="relative w-10 h-10 flex-shrink-0">
-                  <Image
-                    src="/logo.png"
-                    alt="CareConnect Logo"
-                    fill
-                    className="object-contain transition-transform duration-200 group-hover:scale-105"
-                  />
-                </div>
-                <div className="min-w-0">
-                  <h1 className="text-xl font-semibold text-gray-900 truncate">
-                    CareConnect
-                  </h1>
-                  <p className="text-xs text-gray-500 font-medium">Your Health, Our Priority</p>
-                </div>
-              </Link>
-            </div>
-
-            {/* Mobile Navigation */}
-            <nav className="px-4 py-6 space-y-1 flex-1 overflow-y-auto">
-              {navItems.map((item) => {
-                const isActive = pathname === item.path;
-                return (
-                  <Link
-                    key={item.path}
-                    href={item.path}
-                    className={`group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
-                      isActive
-                        ? 'text-[#D98586] bg-[#D98586]/8 shadow-sm'
-                        : 'text-gray-700 hover:text-[#D98586] hover:bg-gray-50/80'
-                    }`}
-                  >
-                    <div className="w-5 h-5 flex-shrink-0 mr-3">
-                      <span className={`block transition-colors duration-200 ${
-                        isActive ? 'text-[#D98586]' : 'text-gray-500 group-hover:text-[#D98586]'
-                      }`}>
-                        {item.icon}
-                      </span>
-                    </div>
-                    <span className="truncate">{item.name}</span>
-                    
-                    {isActive && (
-                      <motion.div
-                        layoutId="mobileActiveIndicator"
-                        className="ml-auto w-1.5 h-1.5 bg-[#D98586] rounded-full flex-shrink-0"
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        transition={{ duration: 0.2 }}
-                      />
-                    )}
-                  </Link>
-                );
-              })}
-            </nav>
-
-            {/* Mobile Logout Button */}
-            <div className="p-4 border-t border-gray-100/80 bg-white/90 backdrop-blur-sm">
-              <button
-                onClick={handleLogout}
-                className="w-full flex items-center justify-center px-3 py-3 text-sm font-medium text-gray-600 hover:text-[#D98586] hover:bg-gray-50/80 rounded-lg transition-all duration-200 group"
-              >
-                <div className="w-5 h-5 flex-shrink-0 mr-3">
-                  <svg className="w-5 h-5 transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                  </svg>
-                </div>
-                <span>Logout</span>
-              </button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* Desktop Sidebar */}
       <motion.div
         initial={{ x: -100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 0.3, ease: "easeOut" }}
-        className="hidden lg:block md:w-64 xl:w-72 h-screen bg-white/80 backdrop-blur-sm border-r border-gray-200/60 fixed left-0 top-0 z-40"
+        className="hidden lg:block w-0 lg:w-52 xl:w-64 2xl:w-72 h-screen bg-white/80 backdrop-blur-sm border-r border-gray-200/60 fixed left-0 top-0 z-40"
       >
         {/* Desktop Logo Section */}
         <div className="px-6 py-8 border-b border-gray-100/80">
           <Link href="/" className="flex items-center space-x-3 group">
-            <div className="relative w-10 h-10 flex-shrink-0">
+            <div className="relative size-10 lg:size-6 xl:size-10 flex-shrink-0">
               <Image
                 src="/logo.png"
                 alt="CareConnect Logo"
@@ -241,10 +128,10 @@ export default function ResponsiveSidebar() {
               />
             </div>
             <div className="min-w-0">
-              <h1 className="text-xl font-semibold text-gray-900 truncate">
+              <h1 className="text-base xl:text-xl font-semibold text-gray-900 truncate">
                 CareConnect
               </h1>
-              <p className="text-xs text-gray-500 font-medium">Your Health, Our Priority</p>
+              <p className="text-[0.6rem] xl:text-xs text-gray-500 font-medium">Your Health, Our Priority</p>
             </div>
           </Link>
         </div>
@@ -257,21 +144,19 @@ export default function ResponsiveSidebar() {
               <Link
                 key={item.path}
                 href={item.path}
-                className={`group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ${
-                  isActive
+                className={`group flex items-center px-3 py-2.5 text-[0.7rem] xl:text-sm font-medium rounded-lg transition-all duration-200 ${isActive
                     ? 'text-[#D98586] bg-[#D98586]/8 shadow-sm'
                     : 'text-gray-700 hover:text-[#D98586] hover:bg-gray-50/80'
-                }`}
+                  }`}
               >
-                <div className="w-5 h-5 flex-shrink-0 mr-3">
-                  <span className={`block transition-colors duration-200 ${
-                    isActive ? 'text-[#D98586]' : 'text-gray-500 group-hover:text-[#D98586]'
-                  }`}>
+                <div className="size-5 flex-shrink-0 mr-3">
+                  <span className={`block transition-colors duration-200 ${isActive ? 'text-[#D98586]' : 'text-gray-500 group-hover:text-[#D98586]'
+                    }`}>
                     {item.icon}
                   </span>
                 </div>
                 <span className="truncate">{item.name}</span>
-                
+
                 {isActive && (
                   <motion.div
                     layoutId="desktopActiveIndicator"
@@ -311,15 +196,13 @@ export default function ResponsiveSidebar() {
               <Link
                 key={item.path}
                 href={item.path}
-                className={`flex flex-col items-center px-3 py-2 rounded-lg transition-all duration-200 ${
-                  isActive
+                className={`flex flex-col items-center px-3 py-2 rounded-lg transition-all duration-200 ${isActive
                     ? 'text-[#D98586]'
                     : 'text-gray-600 hover:text-[#D98586]'
-                }`}
+                  }`}
               >
-                <div className={`w-5 h-5 mb-1 transition-colors duration-200 ${
-                  isActive ? 'text-[#D98586]' : 'text-gray-500'
-                }`}>
+                <div className={`w-5 h-5 mb-1 transition-colors duration-200 ${isActive ? 'text-[#D98586]' : 'text-gray-500'
+                  }`}>
                   {item.icon}
                 </div>
                 <span className="text-xs font-medium truncate max-w-[60px]">

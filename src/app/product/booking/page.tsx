@@ -442,9 +442,9 @@ export default function DoctorBooking() {
         </div>
 
         {/* Main Content */}
-        <div className="flex h-[calc(100vh-88px)]">
+        <div className="flex flex-col md:flex-row h-[calc(100vh-88px)]">
           {/* Map Container */}
-          <div className="flex-1 relative">
+          <div className="flex-1 h-[50%] md:h-full relative">
             <DoctorMap
               userLocation={userLocation}
               doctors={doctors}
@@ -476,9 +476,10 @@ export default function DoctorBooking() {
           </div>
 
           {/* Doctor List Sidebar */}
-          <div className="w-96 bg-white border-l border-gray-200 overflow-y-auto">
-            <div className="p-4">
-              <h2 className="text-lg font-semibold text-gray-800 mb-4">Available Doctors</h2>
+          <h2 className="text-lg font-semibold text-gray-800 px-4 pb-2 pt-4">Available Doctors</h2>
+
+          <div className="w-96 bg-white h-[50%] md:h-full border-l border-gray-200 overflow-y-auto pb-10">
+            <div className="pb-4 px-4">
               <div className="space-y-4">
                 {doctors.map((doctor) => (
                   <div
@@ -589,7 +590,7 @@ export default function DoctorBooking() {
                     <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6">
                       <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
                         <FaVideo className="mr-3 text-green-600" />
-                        AUdio Consultation
+                        Video Consultation
                       </h4>
                       <p className="text-gray-600 mb-6 leading-relaxed">
                         Need immediate attention? Start an audio consultation with{' '}

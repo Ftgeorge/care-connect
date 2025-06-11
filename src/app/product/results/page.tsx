@@ -459,16 +459,9 @@ export default function ResultsPage() {
         >
           {/* Header */}
           <div className="flex justify-between items-center mb-8">
-            <h1 className="text-2xl font-semibold text-[#2D3436]">
+            <h1 className="text-xl sm:text-3xl lg:text-xl xl:text-3xl 2xl:text-4xl font-semibold text-[#2D3436]">
               Analysis Results
             </h1>
-            <button
-              onClick={downloadReport}
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-[#D98586] hover:bg-[#D98586]/90 transition-colors"
-            >
-              <FaDownload className="mr-2" />
-              Download Report
-            </button>
           </div>
 
           {/* Medical History Summary */}
@@ -701,6 +694,13 @@ export default function ResultsPage() {
             >
               Start New Check
             </Link>
+            <button
+              onClick={downloadReport}
+              className="flex-1 inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-[#D98586] hover:bg-[#D98586]/90 transition-colors"
+            >
+              <FaDownload className="mr-2" />
+              Download Report
+            </button>
           </div>
 
           {/* Disclaimer */}

@@ -81,9 +81,9 @@ export default function BookAppointmentSection({
   const availableSlots = availability.find(day => day.date === selectedDateLocal)?.slots || [];
 
   return (
-    <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6">
+    <div className="bg-gradient-to-br from-[#D98586]/50 to-rose-50 rounded-xl p-6">
       <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-        <FaCalendarAlt className="mr-3 text-blue-600" />
+        <FaCalendarAlt className="mr-3 text-[#D98586]" />
         Book Appointment
       </h4>
 
@@ -99,8 +99,8 @@ export default function BookAppointmentSection({
               onClick={() => handleDateSelect(day.date)}
               className={`p-3 rounded-lg text-center transition-colors ${
                 selectedDateLocal === day.date
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-white text-gray-700 hover:bg-blue-50'
+                  ? 'bg-[#D98586] text-white'
+                  : 'bg-white text-gray-700 hover:[#D98586]/50'
               }`}
             >
               {new Date(day.date).toLocaleDateString('en-US', {
@@ -126,8 +126,8 @@ export default function BookAppointmentSection({
                 onClick={() => handleSlotSelect(slot)}
                 className={`p-2 rounded-lg text-center transition-colors ${
                   selectedSlotLocal === slot
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-white text-gray-700 hover:bg-blue-50'
+                    ? 'bg-[#D98586] text-white'
+                    : 'bg-white text-gray-700 hover:bg-[#D98586]'
                 }`}
               >
                 {slot}
@@ -142,7 +142,7 @@ export default function BookAppointmentSection({
         <button
           onClick={handleBookAppointment}
           disabled={isBooking}
-          className={`w-full mt-6 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 font-semibold flex items-center justify-center ${
+          className={`w-full mt-6 px-4 py-3 bg-[#D98586] text-white rounded-lg hover:bg-[#D98586] transition-colors duration-200 font-semibold flex items-center justify-center ${
             isBooking ? 'opacity-75 cursor-not-allowed' : ''
           }`}
         >

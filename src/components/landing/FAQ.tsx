@@ -132,7 +132,7 @@ export default function FAQ() {
                 <span className="inline-block px-4 py-2 rounded-full bg-[#D98586]/10 text-[#D98586] text-sm font-medium mb-4 xl:mb-2 2xl:mb-4">
                   Support Center
                 </span>
-                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-4xl 2xl:text-6xl font-bold text-[#2D3436] leading-tight">
+                <h2 className="text-4xl md:text-3xl lg:text-3xl xl:text-4xl 2xl:text-6xl font-bold text-[#2D3436] leading-tight">
                   Frequently Asked{' '}
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D98586] to-[#B07A7B]">
                     Questions
@@ -251,7 +251,7 @@ export default function FAQ() {
 
                       {/* Question */}
                       <motion.h3 
-                        className={`text-2xl lg:text-3xl font-bold leading-tight mb-4 ${
+                        className={`text-2xl lg:text-2xl xl:text-2xl font-bold leading-tight mb-4 ${
                           activeIndex === index ? 'text-white' : 'text-[#2D3436]'
                         }`}
                         layoutId={`question-${index}`}

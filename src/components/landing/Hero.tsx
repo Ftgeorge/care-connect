@@ -42,7 +42,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <h1 className="text-4xl md:text-4xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white mb-6">
+            <h1 className="text-4xl md:text-4xl lg:text-3xl xl:text-5xl 2xl:text-6xl font-bold text-white mb-6">
               Your Health Our Priority
             </h1>
             <p className="text-xl text-gray-200 mb-8">

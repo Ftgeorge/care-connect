@@ -139,7 +139,7 @@ export default function Footer() {
                 </Link>
               </div>
 
-              <p className="text-gray-600 text-sm sm:text-base lg:text-lg xl:text-sm 2xl:text-lg leading-relaxed mb-4 sm:mb-6">
+              <p className="text-gray-600 text-sm sm:text-base lg:text-sm xl:text-sm 2xl:text-lg leading-relaxed mb-4 sm:mb-6">
                 Revolutionizing healthcare with AI-powered assistance. Your trusted partner for health insights and medical guidance, available whenever you need it.
               </p>
 
@@ -168,7 +168,7 @@ export default function Footer() {
           <div className="col-span-1 sm:col-span-2 lg:col-span-4 grid grid-cols-2 sm:grid-cols-4 gap-6 lg:gap-8">
             {/* Company Links */}
             <motion.div variants={itemVariants} className="col-span-1">
-              <h3 className="font-bold text-sm sm:text-base lg:text-lg xl:text-sm 2xl:text-lg mb-3 sm:mb-4 lg:mb-6 text-gray-900">Company</h3>
+              <h3 className="font-bold text-sm sm:text-base lg:text-sm xl:text-sm 2xl:text-lg mb-3 sm:mb-4 lg:mb-6 text-gray-900">Company</h3>
               <ul className="space-y-2 sm:space-y-3">
                 {footerLinks.company.map((link) => (
                   <li key={link.name}>
@@ -185,7 +185,7 @@ export default function Footer() {
 
             {/* Services Links */}
             <motion.div variants={itemVariants} className="col-span-1">
-              <h3 className="font-bold text-sm sm:text-base lg:text-lg xl:text-sm 2xl:text-lg mb-3 sm:mb-4 lg:mb-6 text-gray-900">Services</h3>
+              <h3 className="font-bold text-sm sm:text-base lg:text-sm xl:text-sm 2xl:text-lg mb-3 sm:mb-4 lg:mb-6 text-gray-900">Services</h3>
               <ul className="space-y-2 sm:space-y-3">
                 {footerLinks.services.map((link) => (
                   <li key={link.name}>
@@ -202,7 +202,7 @@ export default function Footer() {
 
             {/* Resources Links */}
             <motion.div variants={itemVariants} className="col-span-1">
-              <h3 className="font-bold text-sm sm:text-base lg:text-lg xl:text-sm 2xl:text-lg mb-3 sm:mb-4 lg:mb-6 text-gray-900">Resources</h3>
+              <h3 className="font-bold text-sm sm:text-base lg:text-sm xl:text-sm 2xl:text-lg mb-3 sm:mb-4 lg:mb-6 text-gray-900">Resources</h3>
               <ul className="space-y-2 sm:space-y-3">
                 {footerLinks.resources.map((link) => (
                   <li key={link.name}>
@@ -219,7 +219,7 @@ export default function Footer() {
 
             {/* Legal Links */}
             <motion.div variants={itemVariants} className="col-span-1">
-              <h3 className="font-bold text-sm sm:text-base lg:text-lg xl:text-sm 2xl:text-lg mb-3 sm:mb-4 lg:mb-6 text-gray-900">Legal</h3>
+              <h3 className="font-bold text-sm sm:text-base lg:text-sm xl:text-sm 2xl:text-lg mb-3 sm:mb-4 lg:mb-6 text-gray-900">Legal</h3>
               <ul className="space-y-2 sm:space-y-3">
                 {footerLinks.legal.map((link) => (
                   <li key={link.name}>
@@ -256,7 +256,7 @@ export default function Footer() {
                 variants={itemVariants}
                 className="text-center"
               >
-                <div className="text-xl sm:text-2xl lg:text-3xl xl:text-2xl 2xl:text-3xl font-bold text-[#D98586] mb-1 sm:mb-2">
+                <div className="text-xl sm:text-2xl lg:text-2xl xl:text-2xl 2xl:text-3xl font-bold text-[#D98586] mb-1 sm:mb-2">
                   {stat.number}
                 </div>
                 <div className="text-gray-600 text-xs sm:text-sm">

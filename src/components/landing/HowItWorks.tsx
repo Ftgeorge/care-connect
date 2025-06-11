@@ -124,7 +124,7 @@ export default function HowItWorks() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-4xl xl:text-4xl 2xl:text-6xl font-bold text-white mb-4 sm:mb-6 leading-tight px-2"
+            className="text-3xl sm:text-4xl md:text-3xl lg:text-4xl xl:text-4xl 2xl:text-6xl font-bold text-white mb-4 md:mb-2 lg:mb-4 sm:mb-6 leading-tight px-2"
           >
             How It <span style={{ color: '#D98586' }}>Works</span>
           </motion.h2>
@@ -133,7 +133,7 @@ export default function HowItWorks() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="text-xl xl:text-base 2xl:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed px-4"
+            className="text-xl md:text-sm lg:text-base xl:text-base 2xl:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed px-4"
           >
             Experience seamless healthcare in three simple steps designed for your convenience
           </motion.p>
@@ -173,10 +173,10 @@ export default function HowItWorks() {
                   </motion.div>
                 </div>
 
-                <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4 group-hover:text-rose-200 transition-colors duration-300">
+                <h3 className="text-xl md:text-base lg:text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4 group-hover:text-rose-200 transition-colors duration-300">
                   {step.title}
                 </h3>
-                <p className="text-sm sm:text-base text-gray-300 leading-relaxed group-hover:text-gray-200 transition-colors duration-300">
+                <p className="text-sm sm:text-base lg:text-sm text-gray-300 leading-relaxed group-hover:text-gray-200 transition-colors duration-300">
                   {step.description}
                 </p>
 

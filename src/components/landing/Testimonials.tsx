@@ -112,7 +112,7 @@ export default function Testimonials() {
   return (
     <section id="testimonials" className="relative py-24 bg-white overflow-hidden">
       <div className="container mx-auto px-4 xl:px-20 2xl:px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid md:grid-cols-2 gap-16 items-center">
+        <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           
           {/* Left Column - Clean Testimonials Wheel */}
           <div className="flex flex-col items-center justify-center">

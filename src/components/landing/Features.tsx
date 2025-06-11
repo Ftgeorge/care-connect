@@ -89,10 +89,10 @@ export default function Features() {
           >
             Key Features
           </motion.span>
-          <h2 className="text-3xl sm:text-4xl md:text-4xl lg:text-4xl xl:text-4xl 2xl:text-6xl font-display font-bold text-[#2D3436] mb-4 xl:mb-1 2xl:mb-4">
+          <h2 className="text-3xl sm:text-4xl md:text-4xl lg:text-3xl xl:text-4xl 2xl:text-6xl font-display font-bold text-[#2D3436] mb-4 lg:mb-1 xl:mb-1 2xl:mb-4">
             Why Choose CareConnect?
           </h2>
-          <p className="text-xl xl:text-base 2xl:text-xl text-[#636e72] max-w-2xl mx-auto">
+          <p className="text-xl lg:text-base xl:text-base 2xl:text-xl text-[#636e72] max-w-2xl mx-auto">
             Experience healthcare reimagined with our innovative features
           </p>
         </motion.div>
@@ -102,7 +102,7 @@ export default function Features() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto"
+          className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto"
         >
           {features.map((feature, index) => (
             <motion.div
@@ -112,10 +112,10 @@ export default function Features() {
               className="relative"
             >
               <div className="bg-white rounded-2xl p-8 border border-[#D98586]/20 hover:border-[#D98586]/40 transition-colors duration-300 shadow-lg shadow-[#D98586]/5">
-                <div className="w-16 h-16 rounded-2xl bg-[#D98586]/10 flex items-center justify-center text-[#D98586] mb-6">
+                <div className="md:size-12 size-16 rounded-2xl bg-[#D98586]/10 flex items-center justify-center text-[#D98586] mb-6">
                   {feature.icon}
                 </div>
-                <h3 className="text-2xl font-bold text-[#2D3436] mb-4">
+                <h3 className="md:text-xl text-2xl font-bold text-[#2D3436] mb-4 md:mb-2 lg:mb-2 xl:mb-4">
                   {feature.title}
                 </h3>
                 <p className="text-[#636e72] leading-relaxed">

@@ -111,7 +111,7 @@ export default function Testimonials() {
 
   return (
     <section id="testimonials" className="relative py-24 bg-white overflow-hidden">
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="container mx-auto px-4 xl:px-20 2xl:px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid md:grid-cols-2 gap-16 items-center">
           
           {/* Left Column - Clean Testimonials Wheel */}
@@ -126,7 +126,7 @@ export default function Testimonials() {
               <span className="inline-block px-4 py-2 rounded-full bg-[#D98586]/10 text-[#D98586] text-sm font-medium mb-4">
                 Customer Stories
               </span>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold text-[#2D3436]">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-4xl xl:text-4xl 2xl:text-6xl font-display font-bold text-[#2D3436]">
                 What Our Users Say
               </h2>
             </motion.div>
@@ -166,7 +166,7 @@ export default function Testimonials() {
                         whileTap={{ scale: 0.95 }}
                       >
                         <div className={`
-                          relative w-16 h-16 rounded-full overflow-hidden
+                          relative size-12 2xl:size-16 rounded-full overflow-hidden
                           ${isActive 
                             ? 'ring-4 ring-[#D98586] ring-offset-4 ring-offset-white shadow-xl' 
                             : 'ring-2 ring-gray-200 hover:ring-[#D98586]/50 shadow-md'
@@ -203,7 +203,7 @@ export default function Testimonials() {
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ duration: 0.5 }}
                 >
-                  <div className="w-20 h-20 rounded-full overflow-hidden ring-4 ring-white shadow-2xl">
+                  <div className="size-16 2xl:size-20 rounded-full overflow-hidden ring-4 ring-white shadow-2xl">
                     <Image
                       src={featuredTestimonial.image}
                       alt={featuredTestimonial.name}

@@ -3,6 +3,8 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
+import { FaArrowRight } from 'react-icons/fa';
 
 const steps = [
   {
@@ -99,7 +101,7 @@ export default function HowItWorks() {
 
       {/* Content Layer */}
       <motion.div
-        className="relative z-10 w-full container mx-auto px-4 sm:px-6 lg:px-8 will-change-transform"
+        className="relative z-10 w-full container mx-auto px-4 xl:px-20 2xl:px-4 sm:px-6 lg:px-8 will-change-transform"
       >
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -122,7 +124,7 @@ export default function HowItWorks() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 leading-tight px-2"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-4xl xl:text-4xl 2xl:text-6xl font-bold text-white mb-4 sm:mb-6 leading-tight px-2"
           >
             How It <span style={{ color: '#D98586' }}>Works</span>
           </motion.h2>
@@ -131,7 +133,7 @@ export default function HowItWorks() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="text-base sm:text-lg lg:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed px-4"
+            className="text-xl xl:text-base 2xl:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed px-4"
           >
             Experience seamless healthcare in three simple steps designed for your convenience
           </motion.p>
@@ -201,7 +203,7 @@ export default function HowItWorks() {
                       style={{ backgroundColor: '#D98586' }}
                     />
                   </motion.div>
-                  
+
                   {/* Vertical line for mobile/tablet */}
                   <motion.div
                     initial={{ scaleY: 0 }}
@@ -232,14 +234,13 @@ export default function HowItWorks() {
           transition={{ duration: 0.8, delay: 0.8 }}
           className="text-center mt-12 sm:mt-16"
         >
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="px-6 py-3 sm:px-8 sm:py-4 text-sm sm:text-base text-white font-semibold rounded-xl sm:rounded-2xl shadow-lg transition-shadow duration-300 w-full sm:w-auto max-w-xs mx-auto"
-            style={{ backgroundColor: '#D98586' }}
+          <Link
+            href="/product"
+            className="inline-flex items-center justify-center px-8 py-3 bg-[#D98586] text-white rounded-full hover:bg-[#D98586]/90 transition-colors group"
           >
-            Get Started Now
-          </motion.button>
+            <span>Get Started Now</span>
+            <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+          </Link>
         </motion.div>
       </motion.div>
 

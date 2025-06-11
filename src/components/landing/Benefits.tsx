@@ -120,14 +120,14 @@ export default function Benefits() {
         </div>
       </div>
 
-      <div className="relative z-10 container mx-auto px-6 py-24">
+      <div className="relative z-10 container mx-auto px-4 xl:px-20 2xl:px-4 sm:px-6 lg:px-8 py-24">
         {/* Header */}
         <div className="text-center mb-20">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-rose-500/10 text-rose-300 backdrop-blur-sm mb-6">
             <span className="text-sm font-medium">Revolutionary Healthcare Technology</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-rose-100 via-rose-300 to-rose-500 bg-clip-text text-transparent mb-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-4xl xl:text-4xl 2xl:text-6xl font-bold bg-gradient-to-r from-rose-100 via-rose-300 to-rose-500 bg-clip-text text-transparent mb-6 xl:mb-3 2xl:mb-6">
             Why Choose
             <br />
             <span className="bg-gradient-to-r from-[#D98586] to-rose-400 bg-clip-text text-transparent">
@@ -135,7 +135,7 @@ export default function Benefits() {
             </span>
           </h2>
 
-          <p className="text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xl xl:text-base 2xl:text-xl text-gray-500 max-w-2xl mx-auto lg:px-8 leading-relaxed">
             Experience the future of healthcare with our cutting-edge AI technology that transforms how you access and receive medical care.
           </p>
         </div>

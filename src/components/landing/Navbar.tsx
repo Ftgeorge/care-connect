@@ -82,12 +82,12 @@ export default function Navbar() {
         transition={{ duration: 0.5 }}
         className="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm"
       >
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 xl:px-20 2xl:px-4">
           <div className="flex items-center justify-between h-16 md:h-20">
             {/* Logo */}
             <div className="">
               <Link href="/" className="flex items-center space-x-2 md:space-x-3 group">
-                <div className="relative w-8 h-8 md:w-10 md:h-10 flex-shrink-0">
+                <div className="relative w-8 h-8 md:w-10 md:h-10 xl:h-8 xl:w-8 2xl:h-8 2xl:w-8 flex-shrink-0">
                   <Image
                     src="/logo.png"
                     alt="CareConnect Logo"
@@ -96,7 +96,7 @@ export default function Navbar() {
                   />
                 </div>
                 <div className="min-w-0">
-                  <h1 className="text-lg md:text-xl font-semibold text-gray-900 truncate">
+                  <h1 className="text-lg md:text-xl xl:text-base 2xl:text-xl font-semibold text-gray-900 truncate">
                     CareConnect
                   </h1>
                   <p className="text-xs text-gray-500 font-medium hidden sm:block">Your Health, Our Priority</p>
@@ -109,7 +109,7 @@ export default function Navbar() {
               {
                 navLinks.map((nav, index) => (
                   <button key={index} onClick={() => scrollToSection(nav.href)} className={navLinkClasses}>
-                    <span className="flex items-center">
+                    <span className="flex items-center text-sm 2xl:text-base">
                       {nav.name}
                     </span>
                   </button>

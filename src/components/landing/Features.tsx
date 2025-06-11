@@ -72,7 +72,7 @@ const cardVariants = {
 export default function Features() {
   return (
     <section id="features" className="h-full md:h-screen flex items-center bg-white relative overflow-hidden py-20 md:py-0">
-      <div className="container mx-auto px-4 relative">
+      <div className="container mx-auto px-4 xl:px-20 2xl:px-4 relative">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -89,10 +89,10 @@ export default function Features() {
           >
             Key Features
           </motion.span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold text-[#2D3436] mb-4">
+          <h2 className="text-3xl sm:text-4xl md:text-4xl lg:text-4xl xl:text-4xl 2xl:text-6xl font-display font-bold text-[#2D3436] mb-4 xl:mb-1 2xl:mb-4">
             Why Choose CareConnect?
           </h2>
-          <p className="text-xl text-[#636e72] max-w-2xl mx-auto">
+          <p className="text-xl xl:text-base 2xl:text-xl text-[#636e72] max-w-2xl mx-auto">
             Experience healthcare reimagined with our innovative features
           </p>
         </motion.div>

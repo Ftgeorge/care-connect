@@ -108,7 +108,7 @@ export default function FAQ() {
 
   return (
     <section id="faq" className="min-h-screen flex items-center bg-gradient-to-br from-[#F8F9FA] via-white to-[#F8F9FA] text-[#2D3436] py-20">
-      <div className="container mx-auto px-4 max-w-7xl">
+      <div className="container mx-auto px-4 xl:px-20 2xl:px-4 sm:px-6 lg:px-8 max-w-7xl">
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -129,10 +129,10 @@ export default function FAQ() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
               >
-                <span className="inline-block px-4 py-2 rounded-full bg-[#D98586]/10 text-[#D98586] text-sm font-medium mb-4">
+                <span className="inline-block px-4 py-2 rounded-full bg-[#D98586]/10 text-[#D98586] text-sm font-medium mb-4 xl:mb-2 2xl:mb-4">
                   Support Center
                 </span>
-                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#2D3436] leading-tight">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-4xl 2xl:text-6xl font-bold text-[#2D3436] leading-tight">
                   Frequently Asked{' '}
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D98586] to-[#B07A7B]">
                     Questions
@@ -142,7 +142,7 @@ export default function FAQ() {
 
               <motion.p 
                 variants={itemVariants}
-                className="text-lg text-[#636e72] leading-relaxed max-w-md"
+                className="text-base 2xl:text-lg text-[#636e72] leading-relaxed max-w-md"
               >
                 Find answers to common questions about our services, process, and technical expertise. Get the information you need to make informed decisions.
               </motion.p>

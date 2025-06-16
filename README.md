@@ -16,7 +16,7 @@ CareConnect is a comprehensive healthcare application designed to assist users w
 
 ## Live demo
 
-*   **Live Website Url:** `http://care-connect-a9y5.vercel.app/`
+*   **Live Website Url:** http://care-connect-a9y5.vercel.app/
 
 ## Getting Started
 

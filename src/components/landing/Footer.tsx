@@ -4,33 +4,7 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-
-const footerLinks = {
-  company: [
-    { name: 'About', href: '/about' },
-    { name: 'Careers', href: '/careers' },
-    { name: 'Blog', href: '/blog' },
-    { name: 'Press', href: '/press' },
-  ],
-  services: [
-    { name: 'AI Symptom Analysis', href: '/services/ai-analysis' },
-    { name: 'Doctor Consultation', href: '/services/consultation' },
-    { name: 'Health Monitoring', href: '/services/monitoring' },
-    { name: 'Emergency Support', href: '/services/emergency' },
-  ],
-  resources: [
-    { name: 'Help Center', href: '/help' },
-    { name: 'Health Library', href: '/library' },
-    { name: 'API Documentation', href: '/docs' },
-    { name: 'Community', href: '/community' },
-  ],
-  legal: [
-    { name: 'Privacy Policy', href: '/privacy' },
-    { name: 'Terms of Use', href: '/terms' },
-    { name: 'Cookie Policy', href: '/cookies' },
-    { name: 'HIPAA Compliance', href: '/hipaa' },
-  ],
-};
+import { footerLinks } from '@/config/footerLinks';
 
 const socialLinks = [
   {
@@ -170,7 +144,7 @@ export default function Footer() {
             <motion.div variants={itemVariants} className="col-span-1">
               <h3 className="font-bold text-sm sm:text-base lg:text-sm xl:text-sm 2xl:text-lg mb-3 sm:mb-4 lg:mb-6 text-gray-900">Company</h3>
               <ul className="space-y-2 sm:space-y-3">
-                {footerLinks.company.map((link) => (
+                {footerLinks.company.map((link: { name: string; href: string }) => (
                   <li key={link.name}>
                     <a
                       href={link.href}
@@ -187,7 +161,7 @@ export default function Footer() {
             <motion.div variants={itemVariants} className="col-span-1">
               <h3 className="font-bold text-sm sm:text-base lg:text-sm xl:text-sm 2xl:text-lg mb-3 sm:mb-4 lg:mb-6 text-gray-900">Services</h3>
               <ul className="space-y-2 sm:space-y-3">
-                {footerLinks.services.map((link) => (
+                {footerLinks.services.map((link: { name: string; href: string }) => (
                   <li key={link.name}>
                     <a
                       href={link.href}
@@ -204,7 +178,7 @@ export default function Footer() {
             <motion.div variants={itemVariants} className="col-span-1">
               <h3 className="font-bold text-sm sm:text-base lg:text-sm xl:text-sm 2xl:text-lg mb-3 sm:mb-4 lg:mb-6 text-gray-900">Resources</h3>
               <ul className="space-y-2 sm:space-y-3">
-                {footerLinks.resources.map((link) => (
+                {footerLinks.resources.map((link: { name: string; href: string }) => (
                   <li key={link.name}>
                     <a
                       href={link.href}
@@ -221,7 +195,7 @@ export default function Footer() {
             <motion.div variants={itemVariants} className="col-span-1">
               <h3 className="font-bold text-sm sm:text-base lg:text-sm xl:text-sm 2xl:text-lg mb-3 sm:mb-4 lg:mb-6 text-gray-900">Legal</h3>
               <ul className="space-y-2 sm:space-y-3">
-                {footerLinks.legal.map((link) => (
+                {footerLinks.legal.map((link: { name: string; href: string }) => (
                   <li key={link.name}>
                     <a
                       href={link.href}

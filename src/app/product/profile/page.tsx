@@ -3,6 +3,11 @@
 import BookingsSection from '@/components/profile/BookingsSection';
 import React, { useState, useEffect } from 'react';
 import { FaUser, FaHistory, FaCog, FaSignOutAlt, FaEdit, FaBell, FaMoon, FaSun, FaCalendar, FaStethoscope, FaChevronRight, FaEnvelope, FaBirthdayCake, FaToggleOn, FaToggleOff, FaCalendarAlt, FaClock, FaUserMd, FaMapMarkerAlt, FaCheckCircle, FaTimesCircle, FaSpinner, FaAward, FaHeart, FaChartLine, FaSave, FaTimes } from 'react-icons/fa';
+import { Card } from '@/components/ui/Card';
+import { Button } from '@/components/ui/Button';
+import { SectionHeader } from '@/components/ui/SectionHeader';
+import { Avatar } from '@/components/ui/Avatar';
+import { StatusPill } from '@/components/ui/StatusPill';
 
 
 export default function ProfileDashboard() {
@@ -51,23 +56,19 @@ export default function ProfileDashboard() {
           
           {/* Header */}
           <div className="text-center mb-12">
-            <div className="w-20 h-20 bg-white border-3 border-[#D98586] rounded-full flex items-center justify-center mb-6 mx-auto shadow-sm">
-              <FaUser className="text-2xl text-[#D98586]" />
-            </div>
-            <h1 className="text-4xl font-bold text-gray-800 mb-2">Welcome back, John</h1>
+            <Avatar icon={<FaUser />} size={80} borderColor="#D98586" className="mb-6 mx-auto shadow-sm" />
+            <SectionHeader title="Welcome back, John" className="mb-2" />
             <p className="text-gray-600 text-lg">Your health journey continues here</p>
           </div>
 
           {/* Health Stats */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             {healthStats.map((stat, index) => (
-              <div key={index} className="bg-white border border-gray-200 rounded-lg p-6 hover:border-[#D98586] transition-colors duration-200">
-                <div className="w-12 h-12 border-2 border-[#D98586] rounded-lg flex items-center justify-center mb-4">
-                  <stat.icon className="text-[#D98586] text-lg" />
-                </div>
+              <Card key={index} className="hover:border-[#D98586] transition-colors duration-200">
+                <Avatar icon={<stat.icon />} size={48} borderColor="#D98586" className="mb-4" />
                 <h3 className="text-2xl font-bold text-gray-800 mb-1">{stat.value}</h3>
                 <p className="text-gray-600 text-sm">{stat.label}</p>
-              </div>
+              </Card>
             ))}
           </div>
 
@@ -75,28 +76,25 @@ export default function ProfileDashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
             {/* Personal Details */}
-            <div className="lg:col-span-2 bg-white border border-gray-200 rounded-lg p-8">
+            <Card className="lg:col-span-2">
               <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center">
-                  <div className="w-12 h-12 border-2 border-[#D98586] rounded-lg flex items-center justify-center mr-4">
-                    <FaUser className="text-[#D98586] text-xl" />
-                  </div>
+                  <Avatar icon={<FaUser />} size={48} borderColor="#D98586" className="mr-4" />
                   <div>
                     <h2 className="text-2xl font-bold text-gray-800">Personal Profile</h2>
                     <p className="text-gray-600">Manage your information</p>
                   </div>
                 </div>
-                <button
+                <Button
                   onClick={handleEditToggle}
-                  className={`flex items-center px-6 py-3 rounded-lg font-medium border-2 transition-colors duration-200 ${
-                    isEditing 
-                      ? 'border-[#D98586] bg-[#D98586] text-white hover:bg-opacity-90' 
-                      : 'border-gray-300 text-gray-700 hover:border-[#D98586] hover:text-[#D98586]'
-                  }`}
+                  className={isEditing 
+                    ? 'border-[#D98586] bg-[#D98586] text-white hover:bg-opacity-90' 
+                    : 'border-gray-300 text-gray-700 hover:border-[#D98586] hover:text-[#D98586]'}
+                  variant={isEditing ? 'primary' : 'secondary'}
                 >
                   {isEditing ? <FaSave className="mr-2" /> : <FaEdit className="mr-2" />}
                   {isEditing ? 'Save Changes' : 'Edit Profile'}
-                </button>
+                </Button>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
@@ -174,26 +172,20 @@ export default function ProfileDashboard() {
 
                 {/* Avatar Section */}
                 <div className="md:col-span-2 flex items-center justify-center">
-                  <div className="relative">
-                    <div className="w-32 h-32 border-4 border-[#D98586] rounded-full flex items-center justify-center bg-white">
-                      <FaUser className="text-5xl text-[#D98586]" />
-                    </div>
-                    <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2">
-                      <div className="bg-white border border-gray-200 rounded-full px-3 py-1">
-                        <span className="text-sm font-medium text-gray-600">Premium</span>
-                      </div>
+                  <Avatar icon={<FaUser />} size={128} borderColor="#D98586" />
+                  <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2">
+                    <div className="bg-white border border-gray-200 rounded-full px-3 py-1">
+                      <span className="text-sm font-medium text-gray-600">Premium</span>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </Card>
 
             {/* Settings Panel */}
-            <div className="bg-white border border-gray-200 rounded-lg p-8">
+            <Card className="bg-white border border-gray-200 rounded-lg p-8">
               <div className="flex items-center mb-8">
-                <div className="w-12 h-12 border-2 border-[#D98586] rounded-lg flex items-center justify-center mr-4">
-                  <FaCog className="text-[#D98586] text-xl" />
-                </div>
+                <Avatar icon={<FaCog />} size={48} borderColor="#D98586" className="mr-4" />
                 <div>
                   <h2 className="text-xl font-bold text-gray-800">Settings</h2>
                   <p className="text-gray-600">Preferences</p>
@@ -275,14 +267,12 @@ export default function ProfileDashboard() {
                   Sign Out
                 </button>
               </div>
-            </div>
+            </Card>
 
             {/* Recent Activity */}
-            <div className="lg:col-span-3 bg-white border border-gray-200 rounded-lg p-8">
+            <Card className="lg:col-span-3 bg-white border border-gray-200 rounded-lg p-8">
               <div className="flex items-center mb-8">
-                <div className="w-12 h-12 border-2 border-[#D98586] rounded-lg flex items-center justify-center mr-4">
-                  <FaHistory className="text-[#D98586] text-xl" />
-                </div>
+                <Avatar icon={<FaHistory />} size={48} borderColor="#D98586" className="mr-4" />
                 <div>
                   <h2 className="text-2xl font-bold text-gray-800">Recent Activity</h2>
                   <p className="text-gray-600">Your health timeline</p>
@@ -296,28 +286,20 @@ export default function ProfileDashboard() {
                     className="flex items-center justify-between p-6 border border-gray-200 rounded-lg hover:border-[#D98586] transition-colors duration-200"
                   >
                     <div className="flex items-center">
-                      <div className="w-12 h-12 border-2 border-gray-300 rounded-lg flex items-center justify-center mr-4">
-                        <activity.icon className="text-gray-600" />
-                      </div>
+                      <Avatar icon={<activity.icon />} size={48} borderColor="#D98586" className="mr-4" />
                       <div>
                         <h4 className="font-medium text-gray-800">{activity.title}</h4>
                         <p className="text-sm text-gray-600">{activity.date}</p>
                       </div>
                     </div>
                     <div className="flex items-center space-x-3">
-                      <div className={`px-3 py-1 rounded border text-xs font-medium ${
-                        activity.severity === 'high' ? 'border-red-300 bg-red-50 text-red-700' :
-                        activity.severity === 'medium' ? 'border-yellow-300 bg-yellow-50 text-yellow-700' :
-                        'border-green-300 bg-green-50 text-green-700'
-                      }`}>
-                        {activity.severity}
-                      </div>
+                      <StatusPill label={activity.severity} color={activity.severity as 'high' | 'medium' | 'low'} />
                       <FaChevronRight className="text-gray-400" />
                     </div>
                   </div>
                 ))}
               </div>
-            </div>
+            </Card>
           </div>
         </div>
       </div>

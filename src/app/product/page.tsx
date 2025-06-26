@@ -14,6 +14,10 @@ import {
   getAnalyzingResponse,
   getInvalidAgeResponse
 } from '@/services/ai-service';
+import { SectionHeader } from '@/components/ui/SectionHeader';
+import { SectionSubtext } from '@/components/ui/SectionSubtext';
+import { Card } from '@/components/ui/Card';
+import { Button } from '@/components/ui/Button';
 
 const quickSuggestions = [
   "Headache and feeling tired",
@@ -265,47 +269,25 @@ export default function ResponsiveSymptomChecker() {
             animate={{ opacity: 1, y: 0 }}
             className="mb-6 lg:mb-8"
           >
-            {/* Mobile Header Layout */}
-            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
-              <div className="flex-1">
-                <div className='w-full flex items-center justify-between mb-2 lg:mb-2 xl:mb-2 2xl:mb-4'>
-                  <h1 className="text-xl sm:text-3xl lg:text-xl xl:text-3xl 2xl:text-4xl font-bold text-[#2D3436]">
-                    Symptom Checker
-                  </h1>
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={handleStartNewCheck}
-                    className="block lg:hidden sm:w-auto px-4 py-2.5 sm:px-6 sm:py-3 bg-gradient-to-r from-gray-100 to-gray-50 text-[#2D3436] rounded-xl hover:from-gray-200 hover:to-gray-100 transition-all duration-200 shadow-sm hover:shadow-md text-xs sm:text-base lg:text-sm xl:text-sm 2xl:text-base font-medium border border-gray-200/50"
-                  >
-                    <span className="flex items-center justify-center gap-2">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                      </svg>
-                      Start Fresh
-                    </span>
-                  </motion.button>
+            <h1 className="mb-2 text-xl sm:text-xl md:text-xl lg:text-xl xl:text-xl 2xl:text-2xl font-bold">Symptom Checker </h1>
+              {/* Mobile Header Layout */}
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
+                <div className="flex-1">
+                  <p className="text-sm sm:text-sm xl:text-sm text-[#636e72] leading-relaxed">
+                    Chat with our AI assistant about your symptoms and get personalized health insights
+                  </p>
                 </div>
-                <p className="text-sm sm:text-sm xl:text-sm text-[#636e72] leading-relaxed">
-                  Chat with our AI assistant about your symptoms and get personalized health insights
-                </p>
-              </div>
 
-              {/* Mobile-friendly button */}
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={handleStartNewCheck}
-                className="hidden lg:block w-full sm:w-auto px-4 py-2.5 sm:px-6 sm:py-3 bg-gradient-to-r from-gray-100 to-gray-50 text-[#2D3436] rounded-xl hover:from-gray-200 hover:to-gray-100 transition-all duration-200 shadow-sm hover:shadow-md text-sm sm:text-base lg:text-sm xl:text-sm 2xl:text-base font-medium border border-gray-200/50"
-              >
-                <span className="flex items-center justify-center gap-2">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                  </svg>
-                  Start Fresh
-                </span>
-              </motion.button>
-            </div>
+                {/* Mobile-friendly button */}
+                <Button onClick={handleStartNewCheck} className="hidden lg:block w-full sm:w-auto" variant="secondary">
+                  <span className="flex items-center justify-center gap-2">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    Start Fresh
+                  </span>
+                </Button>
+              </div>
           </motion.div>
 
           {/* Error Message - Mobile optimized */}
@@ -420,12 +402,7 @@ export default function ResponsiveSymptomChecker() {
 
           {/* Health Tips - Mobile card */}
           {conversationStep === 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="mt-6 lg:mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
-            >
+            <motion.div className="mt-6 lg:mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {[
                 {
                   icon: "🩺",
@@ -443,13 +420,7 @@ export default function ResponsiveSymptomChecker() {
                   desc: "Your health data stays secure and confidential"
                 }
               ].map((tip, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 + index * 0.1 }}
-                  className="bg-gradient-to-br from-white/80 to-gray-50/80 backdrop-blur-sm p-4 lg:p-6 rounded-xl border border-white/50 shadow-sm hover:shadow-md transition-shadow duration-200"
-                >
+                <Card key={index} className="bg-gradient-to-br from-white/80 to-gray-50/80 backdrop-blur-sm p-4 lg:p-6 rounded-xl border border-white/50 shadow-sm hover:shadow-md transition-shadow duration-200">
                   <div className="text-2xl mb-2">{tip.icon}</div>
                   <h3 className="font-semibold text-[#2D3436] mb-1 text-sm lg:text-base">
                     {tip.title}
@@ -457,7 +428,7 @@ export default function ResponsiveSymptomChecker() {
                   <p className="text-xs lg:text-sm text-[#636e72]">
                     {tip.desc}
                   </p>
-                </motion.div>
+                </Card>
               ))}
             </motion.div>
           )}

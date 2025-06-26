@@ -5,6 +5,11 @@ import { useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaArrowRight } from 'react-icons/fa';
+import { SectionHeader } from '../ui/SectionHeader';
+import { SectionSubtext } from '../ui/SectionSubtext';
+import { Card } from '../ui/Card';
+import { Badge } from '../ui/Badge';
+import { Button } from '../ui/Button';
 
 const steps = [
   {
@@ -101,147 +106,53 @@ export default function HowItWorks() {
 
       {/* Content Layer */}
       <motion.div
-        className="relative z-10 w-full container mx-auto px-4 xl:px-20 2xl:px-4 sm:px-6 lg:px-8 will-change-transform"
+        className="relative z-10 w-full container mx-auto px-4 xl:px-20 2xl:px-4 sm:px-6 lg:px-8 will-change-transform flex flex-col items-center justify-center"
       >
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-8 sm:mb-12 lg:mb-16"
-        >
-          <motion.span
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="inline-block px-4 py-2 sm:px-6 sm:py-2 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-300 text-xs sm:text-sm font-medium mb-4 sm:mb-6 backdrop-blur-sm"
-          >
-            Simple Process
-          </motion.span>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-3xl sm:text-4xl md:text-3xl lg:text-4xl xl:text-4xl 2xl:text-6xl font-bold text-white mb-4 md:mb-2 lg:mb-4 sm:mb-6 leading-tight px-2"
-          >
-            How It <span style={{ color: '#D98586' }}>Works</span>
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="text-xl md:text-sm lg:text-base xl:text-base 2xl:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed px-4"
-          >
-            Experience seamless healthcare in three simple steps designed for your convenience
-          </motion.p>
-        </motion.div>
+        <SectionHeader
+          subtitle="Simple Process"
+          title="How It"
+          highlight="Works"
+          className="mb-4"
+          titleClassname="text-white"
+        />
+        <SectionSubtext className="mb-12">
+          Experience seamless healthcare in three simple steps designed for your convenience
+        </SectionSubtext>
 
         <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
           {steps.map((step, index) => (
-            <motion.div
-              key={step.number}
-              variants={stepVariants}
-              initial="hidden"
-              whileInView="visible"
-              whileHover="hover"
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.2 }}
-              className="relative group"
-            >
-              <div className="bg-white/5 backdrop-blur-lg rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-white/10 transition-all duration-500 hover:bg-white/10 group-hover:shadow-2xl">
-                {/* Step Number Background Glow */}
-                <div className="absolute -top-1 -left-1 sm:-top-2 sm:-left-2 w-12 h-12 sm:w-16 sm:h-16 bg-rose-500/20 rounded-full blur-xl opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
-
-                <div className="flex flex-row sm:flex-row items-start sm:items-center gap-4 mb-4 sm:mb-6 relative">
-                  <motion.div
-                    whileHover={{ rotate: 360 }}
-                    transition={{ duration: 0.6 }}
-                    className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center text-white font-bold text-lg sm:text-xl shadow-lg relative z-10 flex-shrink-0"
-                    style={{ backgroundColor: '#D98586' }}
-                  >
-                    {step.number}
-                  </motion.div>
-                  <motion.div
-                    whileHover={{ scale: 1.1 }}
-                    transition={{ duration: 0.3 }}
-                    className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-white/10 flex items-center justify-center text-rose-300 border border-white/20 backdrop-blur-sm flex-shrink-0"
-                  >
-                    {step.icon}
-                  </motion.div>
-                </div>
-
-                <h3 className="text-xl md:text-base lg:text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4 group-hover:text-rose-200 transition-colors duration-300">
-                  {step.title}
-                </h3>
-                <p className="text-sm sm:text-base lg:text-sm text-gray-300 leading-relaxed group-hover:text-gray-200 transition-colors duration-300">
-                  {step.description}
-                </p>
-
-                {/* Hover Gradient Border */}
-                <div className="absolute inset-0 rounded-2xl sm:rounded-3xl bg-gradient-to-r from-rose-500/0 via-rose-500/20 to-amber-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
+            <Card key={step.number} className="relative group bg-white/5 backdrop-blur-lg rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-white/10 transition-all duration-500 hover:bg-white/10 group-hover:shadow-2xl">
+              <Badge className="absolute -top-2 -left-2 w-12 h-12 flex items-center justify-center text-lg shadow-lg" color="bg-gradient-to-br from-[#D98586] to-rose-300 text-white">
+                {step.number}
+              </Badge>
+              <div className="flex flex-row sm:flex-row items-start sm:items-center gap-4 mb-4 sm:mb-6 relative">
+                <motion.div
+                  whileHover={{ rotate: 360 }}
+                  transition={{ duration: 0.6 }}
+                  className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-white/10 flex items-center justify-center text-rose-300 border border-white/20 backdrop-blur-sm flex-shrink-0"
+                >
+                  {step.icon}
+                </motion.div>
               </div>
-
-              {/* Connecting line with animation - Hidden on mobile, visible on desktop */}
-              {index < steps.length - 1 && (
-                <>
-                  {/* Horizontal line for desktop */}
-                  <motion.div
-                    initial={{ scaleX: 0 }}
-                    whileInView={{ scaleX: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: (index + 1) * 0.3, duration: 0.8 }}
-                    className="hidden lg:block absolute top-1/2 -right-4 w-8 h-0.5 origin-left"
-                    style={{ backgroundColor: '#D98586' }}
-                  >
-                    <motion.div
-                      animate={{ x: [0, 8, 0] }}
-                      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                      className="absolute right-0 top-1/2 w-2 h-2 rounded-full transform -translate-y-1/2"
-                      style={{ backgroundColor: '#D98586' }}
-                    />
-                  </motion.div>
-
-                  {/* Vertical line for mobile/tablet */}
-                  <motion.div
-                    initial={{ scaleY: 0 }}
-                    whileInView={{ scaleY: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: (index + 1) * 0.3, duration: 0.8 }}
-                    className="block lg:hidden absolute left-1/2 -bottom-3 w-0.5 h-6 origin-top transform -translate-x-1/2 flex items-center justify-center"
-                    style={{ backgroundColor: '#D98586' }}
-                  >
-                    <motion.div
-                      animate={{ y: [0, 6, 0] }}
-                      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                      className="absolute bottom-0 left-1/2 size-2 rounded-full transform -translate-x-1/2"
-                      style={{ backgroundColor: '#D98586' }}
-                    />
-                  </motion.div>
-                </>
-              )}
-            </motion.div>
+              <h3 className="text-xl md:text-base lg:text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4 group-hover:text-rose-200 transition-colors duration-300">
+                {step.title}
+              </h3>
+              <p className="text-sm sm:text-base lg:text-sm text-gray-300 leading-relaxed group-hover:text-gray-200 transition-colors duration-300">
+                {step.description}
+              </p>
+              {/* Hover Gradient Border */}
+              <div className="absolute inset-0 rounded-2xl sm:rounded-3xl bg-gradient-to-r from-rose-500/0 via-rose-500/20 to-amber-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
+            </Card>
           ))}
         </div>
 
         {/* Call to Action */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="text-center mt-12 sm:mt-16"
-        >
-          <Link
-            href="/product"
-            className="inline-flex items-center justify-center px-8 py-3 bg-[#D98586] text-white rounded-full hover:bg-[#D98586]/90 transition-colors group"
-          >
+        <Button className="inline-flex items-center justify-center mt-12">
+          <Link href="/product" className="flex items-center">
             <span>Get Started Now</span>
             <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
           </Link>
-        </motion.div>
+        </Button>
       </motion.div>
 
       {/* Animated Background Particles - Reduced on mobile for performance */}

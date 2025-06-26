@@ -4,6 +4,9 @@ import BookAppointmentSection from '@/components/product/BookAppointmentSection'
 import { useState, useEffect, useRef } from 'react';
 import { FaClock, FaVideo, FaCalendarAlt, FaTimes, FaStar, FaMapMarkerAlt } from 'react-icons/fa';
 import Image from 'next/image';
+import { Card } from '@/components/ui/Card';
+import { Button } from '@/components/ui/Button';
+import { Avatar } from '@/components/ui/Avatar';
 
 interface Doctor {
   id: string;
@@ -31,6 +34,13 @@ interface DoctorMapProps {
   onDoctorSelect?: (doctor: Doctor) => void;
   onDoctorHover?: (doctor: Doctor | null) => void;
   isBackground?: boolean;
+}
+
+// Extend the Window interface to include L (Leaflet)
+declare global {
+  interface Window {
+    L: any;
+  }
 }
 
 function DoctorMap({ userLocation, doctors, onDoctorSelect, onDoctorHover, isBackground = false }: DoctorMapProps) {
@@ -144,12 +154,12 @@ function DoctorMap({ userLocation, doctors, onDoctorSelect, onDoctorHover, isBac
                 align-items: center;
                 justify-content: center;
                 box-shadow: 
-    0 2px 10px rgba(0, 0, 0, 0.1), 
-    0 4px 15px rgba(0, 0, 0, 0.05),
-    inset 0 -2px 4px rgba(0, 0, 0, 0.05);
+                  0 2px 10px rgba(0, 0, 0, 0.1), 
+                  0 4px 15px rgba(0, 0, 0, 0.05),
+                  inset 0 -2px 4px rgba(0, 0, 0, 0.05);
                 position: relative;
               ">
-                <i class="fa fa-stethoscope" aria-hidden="true"></i>
+                🩺
               </div>
               <div class="doctor-label" style="
                 position: absolute;
@@ -182,23 +192,23 @@ function DoctorMap({ userLocation, doctors, onDoctorSelect, onDoctorHover, isBac
         }).addTo(map);
 
         // Store doctor reference on marker
-        marker.doctorData = doctor;
+        (marker as any).doctorData = doctor;
 
         // Hover events using DOM events
         marker.on('add', () => {
           const markerElement = marker.getElement();
           if (markerElement) {
             markerElement.addEventListener('mouseenter', () => {
-              const container = markerElement.querySelector('.doctor-marker-container');
-              const label = markerElement.querySelector('.doctor-label');
+              const container = markerElement.querySelector('.doctor-marker-container') as HTMLElement;
+              const label = markerElement.querySelector('.doctor-label') as HTMLElement;
               if (container) container.style.transform = 'scale(1.1)';
               if (label) label.style.opacity = '1';
               onDoctorHover?.(doctor);
             });
 
             markerElement.addEventListener('mouseleave', () => {
-              const container = markerElement.querySelector('.doctor-marker-container');
-              const label = markerElement.querySelector('.doctor-label');
+              const container = markerElement.querySelector('.doctor-marker-container') as HTMLElement;
+              const label = markerElement.querySelector('.doctor-label') as HTMLElement;
               if (container) container.style.transform = 'scale(1)';
               if (label) label.style.opacity = '0';
               onDoctorHover?.(null);
@@ -389,16 +399,6 @@ export default function DoctorBooking() {
     setTimeout(() => setSelectedDoctor(null), 300); // Wait for animation
   };
 
-  const handleBookAppointment = () => {
-    if (!selectedDoctor || !selectedDate || !selectedSlot) return;
-    alert(`Booking appointment with ${selectedDoctor.name} on ${selectedDate} at ${selectedSlot}`);
-  };
-
-  const handleStartVideoCall = () => {
-    if (!selectedDoctor) return;
-    alert(`Starting video call with ${selectedDoctor.name}`);
-  };
-
   if (isLoading || !userLocation) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
@@ -476,48 +476,30 @@ export default function DoctorBooking() {
           </div>
 
           {/* Doctor List Sidebar */}
-          <h2 className="text-lg font-semibold text-gray-800 px-4 pb-2 pt-4">Available Doctors</h2>
-
-          <div className="w-96 bg-white h-[50%] md:h-full border-l border-gray-200 overflow-y-auto pb-10">
+          <div className="w-full md:w-96 bg-white h-[50%] md:h-full border-l border-gray-200 overflow-y-auto">
+            <h2 className="text-lg font-semibold text-gray-800 px-4 pb-2 pt-4">Available Doctors</h2>
             <div className="pb-4 px-4">
               <div className="space-y-4">
                 {doctors.map((doctor) => (
-                  <div
+                  <Card
                     key={doctor.id}
-                    className={`bg-white rounded-xl shadow-sm border border-gray-200 p-4 cursor-pointer transition-all duration-200 hover:shadow-md ${selectedDoctor?.id === doctor.id ? 'ring-2 ring-[#D98586]' : ''
-                      }`}
+                    className={`bg-white rounded-xl shadow-sm border border-gray-200 p-4 cursor-pointer transition-all duration-200 hover:shadow-md ${selectedDoctor?.id === doctor.id ? 'ring-2 ring-[#D98586]' : ''}`}
                     onClick={() => handleDoctorSelect(doctor)}
                   >
                     <div className="flex items-start space-x-3">
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold">
-                        <Image
-                          src={doctor.image}
-                          alt={doctor.name}
-                          width={80}
-                          height={80}
-                          className="object-cover w-full h-full rounded-full"
-                        />
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="font-semibold text-gray-800">{doctor.name}</h3>
-                        <p className="text-sm text-gray-600">{doctor.specialization}</p>
-                        <div className="flex items-center mt-1 space-x-2">
-                          <div className="flex items-center">
-                            <FaStar className="text-yellow-400 text-sm" />
-                            <span className="text-sm text-gray-600 ml-1">{doctor.rating}</span>
-                          </div>
-                          <div className="flex items-center text-sm text-gray-600">
-                            <FaMapMarkerAlt className="text-gray-400" />
-                            <span className="ml-1">{doctor.distance} km</span>
-                          </div>
-                        </div>
-                        <div className="mt-2 flex items-center text-sm text-gray-600">
-                          <FaClock className="text-gray-400 mr-1" />
-                          <span>Available Today</span>
+                      <Avatar src={doctor.image} alt={doctor.name} size={48} borderColor="#D98586" className="flex-shrink-0" />
+                      <div>
+                        <h3 className="text-lg font-bold text-gray-800">{doctor.name}</h3>
+                        <p className="text-gray-600 text-sm">{doctor.specialization}</p>
+                        <div className="flex items-center mt-1">
+                          <FaStar className="text-yellow-400" />
+                          <span className="text-gray-600 ml-1 font-medium">
+                            {doctor.rating} • {doctor.distance} km away
+                          </span>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </Card>
                 ))}
               </div>
             </div>
@@ -525,9 +507,8 @@ export default function DoctorBooking() {
         </div>
 
         {/* Bottom Drawer */}
-        <div className={`fixed inset-x-0 bottom-0 z-50 transform transition-transform duration-300 ease-out ${isDrawerOpen ? 'translate-y-0' : 'translate-y-full'
-          }`}>
-          <div className="bg-white rounded-t-3xl shadow-2xl border-t border-gray-200 h-[60vh] flex flex-col">
+        <div className={`fixed inset-x-0 bottom-0 z-50 transform transition-transform duration-300 ease-out ${isDrawerOpen ? 'translate-y-0' : 'translate-y-full'}`}>
+          <Card className="bg-[#fff] rounded-t-3xl shadow-2xl border-t border-gray-200 h-[60vh] flex flex-col">
             {selectedDoctor && (
               <>
                 {/* Fixed Header */}
@@ -540,13 +521,13 @@ export default function DoctorBooking() {
                   {/* Doctor Header */}
                   <div className="flex justify-between items-start">
                     <div className="flex items-center space-x-4">
-                      <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold text-lg">
+                      <div className="w-16 h-16 rounded-full overflow-hidden">
                         <Image
                           src={selectedDoctor.image}
                           alt={selectedDoctor.name}
-                          width={80}
-                          height={80}
-                          className="object-cover w-full h-full rounded-full"
+                          width={64}
+                          height={64}
+                          className="object-cover w-full h-full"
                         />
                       </div>
                       <div>
@@ -593,11 +574,11 @@ export default function DoctorBooking() {
                         Video Consultation
                       </h4>
                       <p className="text-gray-600 mb-6 leading-relaxed">
-                        Need immediate attention? Start an audio consultation with{' '}
+                        Need immediate attention? Start a video consultation with{' '}
                         <span className="font-semibold text-gray-800">{selectedDoctor.name}</span> right away.
                       </p>
                       <button
-                        onClick={handleStartVideoCall}
+                        onClick={() => alert(`Starting video call with ${selectedDoctor.name}`)}
                         className="w-full px-4 py-3 border-2 border-green-500 text-green-600 rounded-lg hover:bg-green-50 transition-colors duration-200 font-semibold"
                       >
                         <FaVideo className="inline mr-2" />
@@ -608,7 +589,7 @@ export default function DoctorBooking() {
                 </div>
               </>
             )}
-          </div>
+          </Card>
         </div>
 
         {/* Overlay when drawer is open */}

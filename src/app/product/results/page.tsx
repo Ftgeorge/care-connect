@@ -683,20 +683,20 @@ export default function ResultsPage() {
           <div className="mb-8 flex flex-col sm:flex-row gap-4">
             <Link
               href="/product/booking"
-              className="flex-1 inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-[#D98586] hover:bg-[#D98586]/90 transition-colors"
+              className="flex-1 inline-flex items-center justify-center px-6 py-3 border border-transparent text-sm font-medium rounded-md text-white bg-[#D98586] hover:bg-[#D98586]/90 transition-colors"
             >
               <FaUserMd className="mr-2" />
-              Book Appointment with Doctor
+              Book Appointment
             </Link>
             <Link
               href="/product"
-              className="flex-1 inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors"
+              className="flex-1 inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors"
             >
               Start New Check
             </Link>
             <button
               onClick={downloadReport}
-              className="flex-1 inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-[#D98586] hover:bg-[#D98586]/90 transition-colors"
+              className="flex-1 inline-flex items-center justify-center px-6 py-3 border border-transparent text-sm font-medium rounded-md text-white bg-[#D98586] hover:bg-[#D98586]/90 transition-colors"
             >
               <FaDownload className="mr-2" />
               Download Report

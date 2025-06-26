@@ -3,51 +3,11 @@
 import { motion, AnimatePresence, useAnimationControls } from 'framer-motion';
 import Image from 'next/image';
 import { useState, useEffect, useRef } from 'react';
-
-const testimonials = [
-  {
-    name: 'Edward Alexander',
-    title: 'Satisfied User',
-    quote: 'Overall pleasurable experience. Pay a little first and Pay a little during the development of the app as milestones are achieved, which made me feel very confident and comfortable. Seamless and Easy process.',
-    image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    rating: 4.9,
-  },
-  {
-    name: 'Diana Johnston',
-    title: 'Happy Customer',
-    quote: 'This app is a game-changer! It\'s so easy to get quick insights into my symptoms and connect with a doctor when needed. Highly recommend!',
-    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    rating: 4.9,
-  },
-  {
-    name: 'Lauren Contreras',
-    title: 'Great Experience',
-    quote: 'I was skeptical at first, but CareConnect exceeded my expectations. The AI analysis was helpful, and the doctor consultation was thorough and reassuring.',
-    image: 'https://images.unsplash.com/photo-1506277886164-e25aa3f4ef7f?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    rating: 4.9,
-  },
-  {
-    name: 'Michael Brown',
-    title: 'Very Helpful',
-    quote: 'CareConnect made understanding my symptoms so much easier. The interface is user-friendly, and the access to doctors is a major plus.',
-    image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    rating: 5.0,
-  },
-  {
-    name: 'Sophia Lee',
-    title: 'Efficient and Secure',
-    quote: 'I appreciate the privacy and security of my data on CareConnect. It\'s a trustworthy platform for managing my health inquiries.',
-    image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=1961&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    rating: 4.7,
-  },
-  {
-    name: 'James Wilson',
-    title: 'Quick and Easy',
-    quote: 'Getting a preliminary analysis was fast, and connecting with a doctor was seamless. Highly recommend for anyone needing quick health guidance.',
-    image: 'https://images.unsplash.com/photo-1499996860823-5214fcc65f8f?q=80&w=1966&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    rating: 4.8,
-  },
-];
+import { testimonials } from '@/config/testimonials';
+import { Button } from '../ui/Button';
+import { SectionHeader } from '../ui/SectionHeader';
+import { SectionSubtext } from '../ui/SectionSubtext';
+import { Avatar } from '../ui/Avatar';
 
 const quoteVariants = {
   initial: { opacity: 0, y: 20 },
@@ -116,20 +76,14 @@ export default function Testimonials() {
           
           {/* Left Column - Clean Testimonials Wheel */}
           <div className="flex flex-col items-center justify-center">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="mb-12 text-center"
-            >
-              <span className="inline-block px-4 py-2 rounded-full bg-[#D98586]/10 text-[#D98586] text-sm font-medium mb-4">
-                Customer Stories
-              </span>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-4xl xl:text-4xl 2xl:text-6xl font-display font-bold text-[#2D3436]">
-                What Our Users Say
-              </h2>
-            </motion.div>
+            <SectionHeader
+              subtitle="Customer Stories"
+              title="What Our Users Say"
+              className="mb-4"
+            />
+            <SectionSubtext className="mb-12">
+              Hear from real users about their experiences with CareConnect
+            </SectionSubtext>
 
             {/* Clean Testimonials Wheel */}
             <div className="relative flex items-center justify-center">
@@ -144,7 +98,7 @@ export default function Testimonials() {
                   className="relative w-full h-full"
                   style={{ transformOrigin: 'center' }}
                 >
-                  {testimonials.map((testimonial, index) => {
+                  {testimonials.map((testimonial: { name: string; title: string; quote: string; image: string; rating: number }, index: number) => {
                     const angle = (index * angleStep - 90) * (Math.PI / 180); // Start from top
                     const radius = 140; // Distance from center
                     const x = Math.cos(angle) * radius;
@@ -165,31 +119,15 @@ export default function Testimonials() {
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
                       >
-                        <div className={`
-                          relative size-12 2xl:size-16 rounded-full overflow-hidden
-                          ${isActive 
-                            ? 'ring-4 ring-[#D98586] ring-offset-4 ring-offset-white shadow-xl' 
-                            : 'ring-2 ring-gray-200 hover:ring-[#D98586]/50 shadow-md'
-                          }
-                          transition-all duration-300
-                        `}>
-                          <Image
-                            src={testimonial.image}
-                            alt={testimonial.name}
-                            width={64}
-                            height={64}
-                            className="object-cover w-full h-full"
+                        <Avatar src={testimonial.image} alt={testimonial.name} size={48} borderColor={isActive ? '#D98586' : '#E0E0E0'} className={isActive ? 'ring-4 ring-[#D98586] ring-offset-4 ring-offset-white shadow-xl' : 'ring-2 ring-gray-200 hover:ring-[#D98586]/50 shadow-md'} />
+                        {/* Active indicator dot */}
+                        {isActive && (
+                          <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            className="absolute -bottom-1 -right-1 w-4 h-4 bg-[#D98586] rounded-full border-2 border-white"
                           />
-                          
-                          {/* Active indicator dot */}
-                          {isActive && (
-                            <motion.div
-                              initial={{ scale: 0 }}
-                              animate={{ scale: 1 }}
-                              className="absolute -bottom-1 -right-1 w-4 h-4 bg-[#D98586] rounded-full border-2 border-white"
-                            />
-                          )}
-                        </div>
+                        )}
                       </motion.div>
                     );
                   })}
@@ -203,21 +141,13 @@ export default function Testimonials() {
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ duration: 0.5 }}
                 >
-                  <div className="size-16 2xl:size-20 rounded-full overflow-hidden ring-4 ring-white shadow-2xl">
-                    <Image
-                      src={featuredTestimonial.image}
-                      alt={featuredTestimonial.name}
-                      width={80}
-                      height={80}
-                      className="object-cover w-full h-full"
-                    />
-                  </div>
+                  <Avatar src={featuredTestimonial.image} alt={featuredTestimonial.name} size={80} borderColor="#fff" className="shadow-2xl" />
                 </motion.div>
 
                 {/* Navigation dots */}
                 <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2">
-                  {testimonials.map((_, index) => (
-                    <button
+                  {testimonials.map((_: any, index: number) => (
+                    <Button
                       key={index}
                       onClick={() => handleTestimonialClick(index)}
                       className={`w-2 h-2 rounded-full transition-all duration-300 ${
@@ -225,7 +155,12 @@ export default function Testimonials() {
                           ? 'bg-[#D98586] w-6' 
                           : 'bg-gray-300 hover:bg-[#D98586]/50'
                       }`}
-                    />
+                      variant="secondary"
+                      aria-label={`Go to testimonial ${index + 1}`}
+                    >
+                      {/* No visible content for dot button */}
+                      <span className="sr-only">Go to testimonial {index + 1}</span>
+                    </Button>
                   ))}
                 </div>
               </div>
@@ -268,15 +203,7 @@ export default function Testimonials() {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="mt-8 flex items-center space-x-4"
             >
-              <div className="w-12 h-12 rounded-full overflow-hidden ring-2 ring-gray-200">
-                <Image
-                  src={featuredTestimonial.image}
-                  alt={featuredTestimonial.name}
-                  width={48}
-                  height={48}
-                  className="object-cover w-full h-full"
-                />
-              </div>
+              <Avatar src={featuredTestimonial.image} alt={featuredTestimonial.name} size={48} borderColor="#E0E0E0" />
               <div>
                 <h3 className="text-lg font-semibold text-[#2D3436]">
                   {featuredTestimonial.name}

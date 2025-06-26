@@ -1,6 +1,9 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { Card } from '../ui/Card';
+import { SectionHeader } from '../ui/SectionHeader';
+import { SectionSubtext } from '../ui/SectionSubtext';
 
 const features = [
   {
@@ -73,29 +76,14 @@ export default function Features() {
   return (
     <section id="features" className="h-full md:h-screen flex items-center bg-white relative overflow-hidden py-20 md:py-0">
       <div className="container mx-auto px-4 xl:px-20 2xl:px-4 relative">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
-        >
-          <motion.span
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="inline-block px-4 py-2 rounded-full bg-[#D98586]/10 text-[#D98586] text-sm font-medium mb-4"
-          >
-            Key Features
-          </motion.span>
-          <h2 className="text-3xl sm:text-4xl md:text-4xl lg:text-3xl xl:text-4xl 2xl:text-6xl font-display font-bold text-[#2D3436] mb-4 lg:mb-1 xl:mb-1 2xl:mb-4">
-            Why Choose CareConnect?
-          </h2>
-          <p className="text-xl lg:text-base xl:text-base 2xl:text-xl text-[#636e72] max-w-2xl mx-auto">
-            Experience healthcare reimagined with our innovative features
-          </p>
-        </motion.div>
+        <SectionHeader
+          subtitle="Key Features"
+          title="Why Choose CareConnect?"
+          className="mb-4"
+        />
+        <SectionSubtext className="mb-12">
+          Experience healthcare reimagined with our innovative features
+        </SectionSubtext>
 
         <motion.div
           variants={containerVariants}
@@ -105,24 +93,27 @@ export default function Features() {
           className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto"
         >
           {features.map((feature, index) => (
-            <motion.div
-              key={feature.title}
-              variants={cardVariants}
-              whileHover="hover"
-              className="relative"
-            >
-              <div className="bg-white rounded-2xl p-8 border border-[#D98586]/20 hover:border-[#D98586]/40 transition-colors duration-300 shadow-lg shadow-[#D98586]/5">
-                <div className="md:size-12 size-16 rounded-2xl bg-[#D98586]/10 flex items-center justify-center text-[#D98586] mb-6">
+            <Card key={index} className="bg-white/5 backdrop-blur-lg rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-white/10 transition-all duration-500 hover:bg-white/10 group-hover:shadow-2xl">
+              <div className="flex flex-row sm:flex-row items-start sm:items-center gap-4 mb-4 sm:mb-6 relative">
+                <motion.div
+                  whileHover={{ rotate: 360 }}
+                  transition={{ duration: 0.6 }}
+                  className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center text-white font-bold text-lg sm:text-xl shadow-lg relative z-10 flex-shrink-0"
+                  style={{ backgroundColor: '#D98586' }}
+                >
                   {feature.icon}
-                </div>
-                <h3 className="md:text-xl text-2xl font-bold text-[#2D3436] mb-4 md:mb-2 lg:mb-2 xl:mb-4">
-                  {feature.title}
-                </h3>
-                <p className="text-[#636e72] leading-relaxed">
-                  {feature.description}
-                </p>
+                </motion.div>
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 0.3 }}
+                  className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-white/10 flex items-center justify-center text-rose-300 border border-white/20 backdrop-blur-sm flex-shrink-0"
+                >
+                  {feature.icon}
+                </motion.div>
               </div>
-            </motion.div>
+              <h3 className="text-xl font-bold text-black mb-2">{feature.title}</h3>
+              <p className="text-gray-600 leading-relaxed text-base">{feature.description}</p>
+            </Card>
           ))}
         </motion.div>
       </div>

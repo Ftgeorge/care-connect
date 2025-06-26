@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
+import { navLinks } from '../../config/navLinks';
+import { Button } from '../ui/Button';
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -14,13 +16,6 @@ export default function Navbar() {
   const buttonClasses = `group inline-flex items-center justify-center px-6 py-2.5 text-sm font-medium rounded-full transition-all duration-300 bg-[#D98586] text-white hover:bg-[#D98586] hover:scale-105`;
 
   const mobileNavLinkClasses = `flex items-center px-4 py-3 text-base font-medium text-[#2D3436] hover:text-[#232323] hover:bg-[#F8F9FA] rounded-lg transition-all duration-200`;
-
-  const navLinks = [
-    { name: "Features", href: "features", icon: "M13 10V3L4 14h7v7l9-11h-7z" },
-    { name: "How It Works", href: "how-it-works", icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" },
-    { name: "Benefits", href: "benefits", icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" },
-    { name: "FAQ", href: "faq", icon: "M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" },
-  ];
 
   const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId);
@@ -119,7 +114,7 @@ export default function Navbar() {
 
             {/* Desktop Get Started Button */}
             <div className="hidden md:block">
-              <Link href="/check-symptoms" className={buttonClasses}>
+              <Button as={Link} href="/check-symptoms" className={buttonClasses}>
                 <span>Get Started</span>
                 <svg
                   className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300"
@@ -129,7 +124,7 @@ export default function Navbar() {
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
-              </Link>
+              </Button>
             </div>
 
             {/* Mobile Menu Button */}
@@ -269,11 +264,7 @@ export default function Navbar() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4 }}
                   >
-                    <Link
-                      href="/check-symptoms"
-                      className={`${buttonClasses} w-full justify-center`}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
+                    <Button as={Link} href="/check-symptoms" className={`${buttonClasses} w-full justify-center`} onClick={() => setIsMobileMenuOpen(false)}>
                       <span>Get Started</span>
                       <svg
                         className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300"
@@ -283,7 +274,7 @@ export default function Navbar() {
                       >
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                       </svg>
-                    </Link>
+                    </Button>
                   </motion.div>
                 </div>
               </div>

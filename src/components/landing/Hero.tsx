@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRef } from 'react';
 import { FaArrowRight, FaStethoscope } from 'react-icons/fa';
 import Image from 'next/image';
+import { Button } from '../ui/Button';
 
 export default function Hero() {
   const sectionRef = useRef(null);
@@ -49,20 +50,18 @@ export default function Hero() {
               Get instant health insights and connect with doctors from the comfort of your home
             </p>
             <div className="flex flex-row gap-4 justify-center items-center">
-              <Link
-                href="/product"
-                className="inline-flex items-center justify-center px-8 py-3 bg-[#D98586] text-white rounded-full hover:bg-[#D98586]/90 transition-colors group"
-              >
-                <span className='text-sm whitespace-nowrap'>Get Started</span>
-                <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-              </Link>
-              <Link
-                href="/product/booking"
-                className="inline-flex items-center justify-center px-8 py-3 bg-white/10 text-white rounded-full hover:bg-white/20 transition-colors backdrop-blur-sm"
-              >
-                <FaStethoscope className="mr-2" />
-                <span className='whitespace-nowrap text-sm'>Book a Doctor</span>
-              </Link>
+              <Button className="group">
+                <Link href="/product" className="flex items-center">
+                  <span className='text-sm whitespace-nowrap'>Get Started</span>
+                  <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </Button>
+              <Button variant="secondary">
+                <Link href="/product/booking" className="flex items-center">
+                  <FaStethoscope className="mr-2" />
+                  <span className='whitespace-nowrap text-sm'>Book a Doctor</span>
+                </Link>
+              </Button>
             </div>
           </motion.div>
         </div>
